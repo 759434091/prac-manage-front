@@ -1,31 +1,89 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <router-view/>
     </div>
-    <router-view/>
-  </div>
 </template>
 
+<script>
+    export default {
+        name: 'app',
+        created() {
+            const _this = this
+
+            this.$request.interceptors.request.use(
+                config => {
+                    const accessToken = _this.$store.state.accessToken;
+                    if (accessToken)
+                        config.headers.Authorization = `Bearer ${accessToken}`;
+                    return config;
+                },
+                err => {
+                    return Promise.reject(err);
+                })
+            this.$request.interceptors.response.use(
+                res => {
+                    return res
+                },
+                err => {
+                    return new Promise((resolve, reject) => {
+                        if (null == err.response) {
+                            this.$message.error('服务器无反应, 请稍后再试')
+                            return reject()
+                        }
+
+                        if (err.config && !err.config.url.includes('/token') && 401 === err.response.status) {
+                            const refreshToken = localStorage.getItem('refreshToken')
+                            if (refreshToken == null) {
+                                this.$message.error('登录信息过期, 请重新登录')
+                                this.$router.push('/login')
+                                return reject()
+                            }
+
+                            const formData = new FormData()
+                            formData.append('refreshToken', refreshToken)
+                            _this.$request
+                                .post('/refreshToken', formData)
+                                .then((res) => {
+                                    _this.$store.commit('login', res.data)
+
+                                    const url = err.config.url
+                                    const data = err.config.data
+                                    const method = err.config.method
+                                    const params = err.config.params
+
+                                    _this
+                                        .$request({
+                                            url,
+                                            data,
+                                            params,
+                                            method,
+                                            headers: {
+                                                Authorization: `Bearer ${res.data.accessToken}`
+                                            }
+                                        })
+                                        .then(res => resolve(res))
+                                        .catch(err => reject(err))
+                                })
+                                .catch(() => {
+                                    this.$message.error('登录信息过期, 请重新登录')
+                                    this.$router.push('/login')
+                                    return reject()
+                                })
+                        } else {
+                            return reject(err)
+                        }
+                    })
+                })
+        }
+    }
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+    html {
+        min-width: 1024px;
+        background-color: #fcfcfc;
+        font-family: Roboto, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Helvetica, Arial, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
 </style>
