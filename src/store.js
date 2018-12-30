@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         accessToken: null,
-        jwtPmUser: null
+        jwtPmUser: null,
+        backSetting: null,
     },
     mutations: {
         login(state, pmToken) {
@@ -20,7 +21,30 @@ export default new Vuex.Store({
         resetState(state, {accessToken, jwtPmUser}) {
             state.accessToken = accessToken
             state.jwtPmUser = jwtPmUser
+        },
+        backSetting(state, backSetting) {
+            state.backSetting = backSetting
         }
     },
-    actions: {}
+    actions: {
+        logout({state}) {
+            localStorage.clear();
+            state.accessToken = null
+            state.jwtPmUser = null
+            state.backSetting = null
+        },
+        getLocalStorageState({state}) {
+            if (state.accessToken && state.jwtPmUser)
+                return true
+
+            const accessToken = localStorage.getItem('accessToken');
+            const jwtPmUser = localStorage.getItem('jwtPmUser')
+            if (!accessToken || !jwtPmUser)
+                return false
+
+            state.accessToken = accessToken;
+            state.jwtPmUser = JSON.parse(jwtPmUser);
+            return true
+        }
+    }
 })

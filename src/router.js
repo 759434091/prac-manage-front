@@ -27,7 +27,35 @@ export default new Router({
         {
             path: '/index',
             name: 'index',
-            component: Index
+            component: Index,
+            children: [
+                {
+                    path: 'student',
+                    name: 'student',
+                    redirect: 'student/stuInfo',
+                    component: () => import('./components/Student.vue'),
+                    children: [
+                        {
+                            path: 'stuInfo',
+                            name: 'stuInfo',
+                            component: () => import('./components/student/StuInfo.vue')
+                        }
+                    ]
+                },
+                {
+                    path: 'administrator',
+                    name: 'administrator',
+                    redirect: 'administrator/pracManage',
+                    component: () => import('./components/Administrator.vue'),
+                    children: [
+                        {
+                            path: 'pracManage',
+                            name: 'pracManage',
+                            component: () => import('./components/administrator/PracManage.vue')
+                        }
+                    ]
+                }
+            ]
         }
     ]
 })

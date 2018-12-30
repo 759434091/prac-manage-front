@@ -3,10 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import request from './request'
+import util from './util'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$request = request
+
+Vue.prototype.$util = util
 
 //返回状态判断
 request.interceptors.response.use((res) => {
