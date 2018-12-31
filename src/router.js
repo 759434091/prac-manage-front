@@ -54,8 +54,39 @@ export default new Router({
                             component: () => import('./components/administrator/PracManage.vue')
                         }
                     ]
+                },
+                {
+                    path: 'parent',
+                    name: 'parent',
+                    redirect: 'parent/pracInfo',
+                    component: () => import('./components/Parent.vue'),
+                    children: [
+                        {
+                            path: 'pracInfo',
+                            name: 'pracInfo',
+                            component: () => import('./components/parent/PracInfo.vue')
+                        }
+                    ]
+                },
+                {
+                    path: 'setting',
+                    name: 'setting',
+                    redirect: 'setting/passwordSetting',
+                    children: [
+                        {
+                            path: 'passwordSetting',
+                            name: 'passwordSetting',
+                            component: () => import('./components/setting/PasswordSetting.vue')
+                        }
+                    ],
+                    component: () => import('./components/Setting.vue')
                 }
             ]
+        },
+        {
+            path: '*',
+            component:
+                () => import('./views/NotFound.vue')
         }
     ]
 })

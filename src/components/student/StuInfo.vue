@@ -78,17 +78,18 @@
                      :rules="secondFormRules"
                      ref="secondForm" label-width="110px" label-position="right">
                 <el-form-item label="实习状态" prop="status">
-                    <el-select v-model="secondForm.status" placeholder="请选择">
+                    <el-select v-model="secondForm.status"
+                               @change="changePhiStatus"
+                               placeholder="请选择">
                         <el-option
                                 v-for="(item,idx) in this.$util.PhiStatus"
-                                :disabled="secondForm.disabled"
                                 :key="`PhiStatus_${idx}`"
                                 :label="item.label"
                                 :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="预计实习时间" prop="dateRange">
+                <el-form-item label="实习时间" prop="dateRange">
                     <el-date-picker
                             type="daterange"
                             start-placeholder="开始日期"
@@ -106,7 +107,7 @@
                     <el-input v-model="secondForm.cpyLoc" :disabled="secondForm.disabled"
                               placeholder="请输入地址"></el-input>
                 </el-form-item>
-                <el-form-item label="预计住宿状态" prop="accomType">
+                <el-form-item label="住宿状态" prop="accomType">
                     <el-select v-model="secondForm.accomType"
                                :disabled="secondForm.disabled"
                                placeholder="请选择">
@@ -271,7 +272,7 @@
                     hideUpload: false
                 }
                 this.$request
-                    .get(`/info/${this.jwtPmUser.pmUser.puId}`)
+                    .get(`/info/${this.jwtPmUser.id}`)
                     .then(res => {
                         const pmInfo = res.data
                         if (pmInfo == null || pmInfo === '') {
@@ -334,7 +335,7 @@
                         pmInfo.phiRentCert = this.firstForm.fileRes
                         pmInfo.phiRemark = this.firstForm.remark
                         this.$request
-                            .put(`/info/${this.jwtPmUser.pmUser.puId}`, pmInfo, {
+                            .put(`/info/${this.jwtPmUser.id}`, pmInfo, {
                                 params: {
                                     type: 'first'
                                 }
@@ -360,6 +361,33 @@
 
                     })
             },
+            changePhiStatus(val) {
+                const pmInfo = {}
+                pmInfo.phiStatus = val
+                this.$request
+                    .put(`/info/${this.jwtPmUser.id}`, pmInfo, {
+                        params: {
+                            type: 'second'
+                        }
+                    })
+                    .then(res => {
+                        if (!res.data.success) {
+                            this.$message.error(res.data.message)
+                            return
+                        }
+
+                        this.$message.success("更新状态成功")
+                    })
+                    .catch(err => {
+                        if (!err.response || !err.response.data)
+                            return
+                        if (!err.response.data.message) {
+                            this.$message.error(err.response.data)
+                            return
+                        }
+                        this.$message.error(err.response.data.message)
+                    })
+            },
             submitSecondForm() {
                 this.$refs.secondForm
                     .validate((valid) => {
@@ -382,7 +410,7 @@
                         pmInfo.phiRentCert = this.secondForm.fileRes
                         pmInfo.phiRemark = this.secondForm.remark
                         this.$request
-                            .put(`/info/${this.jwtPmUser.pmUser.puId}`, pmInfo, {
+                            .put(`/info/${this.jwtPmUser.id}`, pmInfo, {
                                 params: {
                                     type: 'second'
                                 }

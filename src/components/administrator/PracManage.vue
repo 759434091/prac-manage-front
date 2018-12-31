@@ -9,7 +9,12 @@
                     <el-input v-model="selectForm.pmUser.puFullName" placeholder="请输入"></el-input>
                 </el-form-item>
                 <el-form-item label="登记状态">
-                    <el-select v-model="selectForm.pmInfo.phiInfoStep" placeholder="请选择">
+                    <el-select v-if="testQueryUser()" v-model="selectForm.pmInfo.phiInfoStep">
+                        <el-option label="未选择" :value="null"></el-option>
+                        <el-option label="未登记" :value="0"></el-option>
+                        <el-option label="已登记" :value="1"></el-option>
+                    </el-select>
+                    <el-select v-else v-model="selectForm.pmInfo.phiInfoStep" placeholder="请选择">
                         <el-option label="未选择" :value="null"></el-option>
                         <el-option
                                 v-for="(item,idx) in this.$util.PhiInfoStep"
@@ -74,11 +79,11 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button :loading="loading" :disabled="loading" @click="onSearch" type="primary">模糊搜索</el-button>
+                    <el-button @click="onClear">清空</el-button>
                 </el-form-item>
                 <el-form-item>
                     <el-tooltip class="item" effect="dark" placement="top-start"
                                 content="指定了学生信息将会忽略登记状态以及以后选项！">
-                        <!--todo 变化登记状态表单-->
                         <i class="el-icon-warning" style="color: #F56C6C;"></i>
                     </el-tooltip>
                 </el-form-item>
@@ -246,6 +251,29 @@
                 iframe.src = `${this.$request.defaults.baseURL}/files/${enStr}`
                 iframe.onload = () => document.body.removeChild(iframe)
                 document.body.appendChild(iframe)
+            },
+            testQueryUser() {
+                if (this.selectForm.pmUser.puStuId != null && this.selectForm.pmUser.puStuId.trim() !== '')
+                    return true
+                return this.selectForm.pmUser.puFullName != null && this.selectForm.pmUser.puFullName.trim() !== '';
+            },
+            onClear() {
+                this.selectForm = {
+                    pmUser: {
+                        puStuId: null,
+                        puFullName: null
+                    },
+                    pmInfo: {
+                        phiStatus: null,
+                        phiCompany: null,
+                        phiCpyLoc: null,
+                        phiStartDate: null,
+                        phiEndDate: null,
+                        phiAccomType: null,
+                        phiRentAddr: null,
+                        phiRentCert: null
+                    }
+                }
             }
         }
     }
