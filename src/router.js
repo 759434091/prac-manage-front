@@ -52,6 +52,11 @@ export default new Router({
                             path: 'pracManage',
                             name: 'pracManage',
                             component: () => import('./components/administrator/PracManage.vue')
+                        },
+                        {
+                            path: 'historyManage',
+                            name: 'historyManage',
+                            component: () => import('./components/administrator/HistoryManage.vue')
                         }
                     ]
                 },

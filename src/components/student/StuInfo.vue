@@ -222,6 +222,7 @@
                     fileRes: null,
                     hideUpload: false
                 },
+                rawForm: null,
                 secondFormRules: {
                     status: [
                         {required: true, message: '请选择实习状态', trigger: 'blur'}
@@ -301,6 +302,8 @@
                                 this.secondForm.rentAddr = pmInfo.phiRentAddr
                                 this.secondForm.remark = pmInfo.phiRemark
                                 this.secondForm.fileRes = pmInfo.phiRentCert
+
+                                this.rawForm = JSON.parse(JSON.stringify(this.secondForm))
                                 if (pmInfo.fileRes !== '')
                                     this.secondForm.hideUpload = true
                                 break
@@ -407,15 +410,25 @@
                         }
 
                         const pmInfo = {}
-                        pmInfo.phiStatus = this.secondForm.status
-                        pmInfo.phiStartDate = this.secondForm.dateRange[0]
-                        pmInfo.phiEndDate = this.secondForm.dateRange[1]
-                        pmInfo.phiCompany = this.secondForm.company
-                        pmInfo.phiCpyLoc = this.secondForm.cpyLoc
-                        pmInfo.phiAccomType = this.secondForm.accomType
-                        pmInfo.phiRentAddr = this.secondForm.rentAddr
-                        pmInfo.phiRentCert = this.secondForm.fileRes
-                        pmInfo.phiRemark = this.secondForm.remark
+                        if (this.secondForm.status !== this.rawForm.status)
+                            pmInfo.phiStatus = this.secondForm.status
+                        if (this.secondForm.dateRange[0].toISOString() !== this.rawForm.dateRange[0])
+                            pmInfo.phiStartDate = this.secondForm.dateRange[0]
+                        if (this.secondForm.dateRange[1].toISOString() !== this.rawForm.dateRange[1])
+                            pmInfo.phiEndDate = this.secondForm.dateRange[1]
+                        if (this.secondForm.company !== this.rawForm.company)
+                            pmInfo.phiCompany = this.secondForm.company
+                        if (this.secondForm.cpyLoc !== this.rawForm.cpyLoc)
+                            pmInfo.phiCpyLoc = this.secondForm.cpyLoc
+                        if (this.secondForm.accomType !== this.rawForm.accomType)
+                            pmInfo.phiAccomType = this.secondForm.accomType
+                        if (this.secondForm.rentAddr !== this.rawForm.rentAddr)
+                            pmInfo.phiRentAddr = this.secondForm.rentAddr
+                        if (this.secondForm.fileRes !== this.rawForm.fileRes)
+                            pmInfo.phiRentCert = this.secondForm.fileRes
+                        if (this.secondForm.remark !== this.rawForm.remark)
+                            pmInfo.phiRemark = this.secondForm.remark
+
                         this.$request
                             .put(`/info/${this.jwtPmUser.id}`, pmInfo, {
                                 params: {
@@ -522,6 +535,7 @@
                 document.body.appendChild(iframe)
             },
             reUpSecFile() {
+                this.secondForm.fileRes = null
                 this.secondForm.hideUpload = false
             }
         }

@@ -4,6 +4,7 @@
             <el-menu class="idx-second-menu" background-color="#4b4b4b" text-color="#fff"
                      active-text-color="#ffd04b" :default-active="activeIndex">
                 <el-menu-item index="1" @click="pracManage">实习管理</el-menu-item>
+                <el-menu-item index="2" @click="historyManage">登记记录</el-menu-item>
             </el-menu>
         </el-aside>
         <el-main class="idx-main">
@@ -34,8 +35,11 @@
         methods: {
             switchActiveIndex(name) {
                 switch (name) {
-                    case 'stuInfo':
+                    case 'pracManage':
                         this.activeIndex = "1"
+                        break
+                    case 'historyManage':
+                        this.activeIndex = "2"
                         break
                     default:
                         this.$router.push('/index/administrator/pracManage')
@@ -44,6 +48,9 @@
             },
             pracManage() {
                 this.$router.push('/index/administrator/pracManage')
+            },
+            historyManage() {
+                this.$router.push('/index/administrator/historyManage')
             }
         }
     }

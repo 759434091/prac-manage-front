@@ -79,7 +79,6 @@
                     accessToken,
                     jwtPmUser
                 })
-                this.$router.push('/index')
             }
 
             const _this = this
