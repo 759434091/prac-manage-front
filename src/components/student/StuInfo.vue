@@ -9,7 +9,7 @@
             </el-steps>
         </el-header>
         <el-main>
-            <el-form v-if="active === 0"
+            <el-form v-loading="loading" :disabled="loading" v-if="active === 0"
                      :model="firstForm"
                      :rules="firstFormRules"
                      ref="firstForm" label-width="110px" label-position="right">
@@ -73,7 +73,7 @@
                 </el-form-item>
             </el-form>
 
-            <el-form v-if="active === 1 || active === 2"
+            <el-form v-loading="loading" :disabled="loading" v-if="active === 1 || active === 2"
                      :model="secondForm"
                      :rules="secondFormRules"
                      ref="secondForm" label-width="110px" label-position="right">
@@ -176,6 +176,7 @@
         },
         data() {
             return {
+                loading: false,
                 active: 0,
                 firstForm: {
                     status: null,
@@ -247,6 +248,7 @@
         },
         methods: {
             create() {
+                this.loading = true
                 this.firstForm = {
                     status: null,
                     dateRange: null,
@@ -312,6 +314,7 @@
                         }
                         this.$message.error(err.response.data.message)
                     })
+                    .finally(() => this.loading = false)
             },
             submitFirstForm() {
                 this.$refs.firstForm

@@ -10,7 +10,7 @@
                     <el-form-item label="密码" prop="puPassword">
                         <el-input type="password" v-model="loginForm.puPassword" @keyup.enter.native="onSubmit"/>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item class="login-button-group">
                         <el-button class="login-form-button" type="primary" @click="onSubmit"
                                    :loading="loginProcessing"
                                    :disabled="loginProcessing">
@@ -130,6 +130,10 @@
 
     .login-form .el-form-item.is-required .el-form-item__label:before {
         content: none;
+    }
+
+    .login-button-group {
+        white-space: nowrap;
     }
 
     .login-form-info {
