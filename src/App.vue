@@ -74,13 +74,21 @@
                         }
                     })
                 })
+        },
+        mounted() {
+            const that = this
+            window.onresize = () => {
+                return (() => {
+                    window.screenWidth = document.body.clientWidth
+                    that.$store.dispatch('updateScreenWidth', window.screenWidth)
+                })()
+            }
         }
     }
 </script>
 
 <style>
     html {
-        min-width: 1024px;
         background-color: #fcfcfc;
         font-family: Roboto, -apple-system, BlinkMacSystemFont,
         "Segoe UI", Helvetica, Arial, sans-serif,

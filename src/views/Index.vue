@@ -3,7 +3,14 @@
         <el-header>
             <el-menu class="idx-menu" mode="horizontal" background-color="#545c64" text-color="#fff"
                      active-text-color="#ffd04b">
-                <li class="idx-menu-brand">&emsp;实习登记系统&emsp;</li>
+                <li class="idx-menu-icon" @click="showAsideMenu">
+                    <span><i class="el-icon-menu"></i></span>
+                </li>
+                <li class="idx-menu-brand">
+                    <span class="idx-menu-brand-span">&emsp;</span>
+                    实习登记
+                    <span class="idx-menu-brand-span">系统&emsp;</span>
+                </li>
                 <li class="idx-menu-datetime" v-html="this.formatDateTime"></li>
                 <li class="idx-menu-greeting" v-text="this.greetMsg"></li>
                 <el-submenu class="idx-menu-setting" index="1">
@@ -136,6 +143,22 @@
                 this.$store.commit('backSetting', this.$route.path)
                 this.$router.push('/index/setting')
             },
+            showAsideMenu(event) {
+                const target = event.currentTarget
+                target.onblur = () => {
+                    const items = document.querySelectorAll(".idx-el-aside, .idx-second-menu");
+                    for (let item of items) {
+                        item.style.visibility = 'hidden'
+                        item.style.opacity = '0'
+                    }
+                    target.onblur = null
+                }
+                const items = document.querySelectorAll(".idx-el-aside, .idx-second-menu");
+                for (let item of items) {
+                    item.style.visibility = 'visible'
+                    item.style.opacity = '1'
+                }
+            }
         },
         beforeDestroy() {
             if (this.timer)
@@ -173,6 +196,10 @@
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         box-shadow: 3px 1px 15px #888888;
+    }
+
+    .idx-menu-icon {
+        display: none;
     }
 
     .idx-menu-brand {
@@ -237,6 +264,131 @@
             padding: 10px 0;
             background-color: transparent;
             border-bottom-right-radius: 5px;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .idx-el-aside {
+            width: 150px !important;
+        }
+
+        .idx-menu-brand {
+            width: 110px;
+            font-size: 1rem;
+        }
+
+        .idx-menu-brand-span {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        body {
+            margin: 0;
+        }
+
+        .el-header {
+            padding: 0;
+        }
+
+        .idx-menu {
+            border-top-left-radius: unset;
+            border-top-right-radius: unset;
+            box-shadow: unset;
+        }
+
+        .idx-menu-setting {
+            border-top-right-radius: unset;
+        }
+
+        .idx-menu-setting .el-submenu__title {
+            border-top-right-radius: unset;
+        }
+
+        .idx-menu-brand {
+            border-top-left-radius: unset;
+        }
+
+        .idx-el-aside {
+            visibility: visible;
+            opacity: 1;
+            margin-left: 0;
+            border-bottom-left-radius: unset;
+            box-shadow: unset;
+        }
+
+        .idx-menu-datetime, .idx-menu-greeting {
+            display: none;
+        }
+
+        .idx-main {
+            margin-right: 0;
+            padding: 10px;
+            border-bottom-right-radius: unset;
+            box-shadow: unset;
+            height: calc(100vh - 60px);
+        }
+
+        .idx-second-menu {
+            visibility: visible;
+            opacity: 1;
+            height: calc(100vh - 60px);
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .idx-menu-icon {
+            float: left;
+            display: inline;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 20px;
+            color: rgb(239, 239, 239);
+            background-color: #545c64;
+            border-bottom-color: transparent;
+            font-size: 1.2rem;
+            transition: background-color 0.5s;
+        }
+
+        .idx-menu-icon:focus, .idx-menu-icon:hover, .idx-menu-icon:active {
+            background-color: rgb(67, 74, 80);
+        }
+
+        .idx-second-container {
+            margin-top: 0;
+            padding-top: 8px;
+        }
+
+        .idx-el-aside, .idx-second-menu {
+            border-radius: 3px;
+            visibility: hidden;
+            opacity: 0;
+            position: fixed;
+            top: 43px;
+            height: auto;
+            width: 175px !important;
+            z-index: 9999;
+            transition: visibility, opacity 0.2s ease-in-out;
+        }
+
+        .idx-second-menu .el-menu-item {
+            border-radius: 3px;
+            height: 35px;
+            line-height: 35px;
+            background-color: rgb(84, 92, 100) !important;
+        }
+
+        .idx-menu-brand {
+            display: none;
+        }
+
+        .el-header {
+            height: 40px !important;
+        }
+
+        .el-menu--horizontal > .el-submenu .el-submenu__title {
+            height: 40px;
+            line-height: 40px;
         }
     }
 </style>

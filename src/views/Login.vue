@@ -1,7 +1,7 @@
 <template>
     <el-container class="login-box-container">
         <el-row class="login-box-row" type="flex" justify="center">
-            <el-col class="login-box-col" :xl="5" :xs="12" :md="8" :sm="9" :span="12">
+            <el-col class="login-box-col" :xl="5" :md="8" :sm="12" :xs="20" :span="12">
                 <h1 class="login-box-brand">实习登记系统</h1>
                 <el-form class="login-form" ref="loginForm" :model="loginForm" :rules="loginRules">
                     <el-form-item label="用户名/学号/教工号" prop="puId">
@@ -139,5 +139,18 @@
     .login-form-info {
         margin-left: 1.5rem;
         cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+        .login-box-col {
+            padding: 10px 20px;
+        }
+    }
+
+    @media screen and (max-width: 350px) {
+        .login-box-col {
+            width: 95% !important;
+            padding: 10px;
+        }
     }
 </style>

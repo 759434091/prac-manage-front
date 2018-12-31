@@ -10,9 +10,10 @@
         </el-header>
         <el-main>
             <el-form v-loading="loading" :disabled="loading" v-if="active === 0"
+                     :size="size"
                      :model="firstForm"
                      :rules="firstFormRules"
-                     ref="firstForm" label-width="110px" label-position="right">
+                     ref="firstForm" label-width="110px" :label-position="labelPosition">
                 <el-form-item label="实习状态" prop="status">
                     <el-select v-model="firstForm.status" placeholder="请选择">
                         <el-option
@@ -74,10 +75,12 @@
             </el-form>
 
             <el-form v-loading="loading" :disabled="loading" v-if="active === 1 || active === 2"
+                     :size="size"
                      :model="secondForm"
                      :rules="secondFormRules"
-                     ref="secondForm" label-width="110px" label-position="right">
-                <el-form-item label="实习状态" prop="status">
+                     ref="secondForm" label-width="110px" :label-position="labelPosition">
+                <el-form-item label="实习状态" prop="status"
+                              :size="size">
                     <el-select v-model="secondForm.status"
                                @change="changePhiStatus"
                                placeholder="请选择">
@@ -172,7 +175,19 @@
     export default {
         name: "StuInfo",
         computed: {
-            ...mapState(['jwtPmUser'])
+            ...mapState(['jwtPmUser', 'screenWidth']),
+            size() {
+                if (this.screenWidth > 480)
+                    return 'normal'
+
+                return 'mini'
+            },
+            labelPosition() {
+                if (this.screenWidth > 480)
+                    return 'right'
+
+                return 'top'
+            }
         },
         data() {
             return {

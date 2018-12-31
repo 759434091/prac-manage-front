@@ -8,6 +8,7 @@ export default new Vuex.Store({
         accessToken: null,
         jwtPmUser: null,
         backSetting: null,
+        screenWidth: document.body.clientWidth
     },
     mutations: {
         login(state, pmToken) {
@@ -45,6 +46,9 @@ export default new Vuex.Store({
             state.accessToken = accessToken;
             state.jwtPmUser = JSON.parse(jwtPmUser);
             return true
+        },
+        updateScreenWidth({state}, screenWidth) {
+            state.screenWidth = screenWidth
         }
     }
 })

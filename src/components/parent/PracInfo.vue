@@ -2,7 +2,9 @@
     <el-container>
         <el-main>
             <el-form :model="infoForm"
-                     ref="infoForm" label-width="110px" label-position="right">
+                     :size="size"
+                     :label-position="labelPosition"
+                     ref="infoForm" label-width="110px" >
                 <el-form-item label="目前状态" prop="status">
                     <span v-text="getStuStatus(infoForm.status)"></span>
                 </el-form-item>
@@ -65,7 +67,19 @@
     export default {
         name: "PracInfo",
         computed: {
-            ...mapState(['jwtPmUser'])
+            ...mapState(['jwtPmUser', 'screenWidth']),
+            size() {
+                if (this.screenWidth > 480)
+                    return 'normal'
+
+                return 'mini'
+            },
+            labelPosition() {
+                if (this.screenWidth > 480)
+                    return 'right'
+
+                return 'top'
+            }
         },
         data() {
             return {
