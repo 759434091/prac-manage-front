@@ -1,24 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-roboto@0.0.54/index.min.css">
-    <link crossorigin="anonymous" integrity="sha384-PjBdpcgRlWZu3Li8EicSANMDC//hryLcAdSi0nimFm6wZrh8PspinYJFKIDbJMEX" href="https://lib.baomitu.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
+    <link crossorigin="anonymous" integrity="sha384-PjBdpcgRlWZu3Li8EicSANMDC//hryLcAdSi0nimFm6wZrh8PspinYJFKIDbJMEX"
+          href="https://lib.baomitu.com/element-ui/2.4.11/theme-chalk/index.css" rel="stylesheet">
     <title>prac-manage-front</title>
-    <script crossorigin="anonymous" integrity="sha384-av7a40qvniQJlzaRkLiE3dUj08AsYxc//RGG5AoErYdSBDUbyvEHSv8pJ/HZ98H5" src="https://lib.baomitu.com/vue/2.5.21/vue.js"></script>
-    <script crossorigin="anonymous" integrity="sha384-Zpp7sDgFzONVemEpFSeE3fOV+J8csNjXzbiXL+gTGOujZxXKtbUgW4DEWqZoOQiR" src="https://lib.baomitu.com/vue-router/3.0.2/vue-router.js"></script>
-    <script crossorigin="anonymous" integrity="sha384-RSGJdn4e9fjuHbG8gGlA9HoA0eQjMn8+W3ZLiY9ZElr7wLhLsAQycKpLXcQsioSb" src="https://lib.baomitu.com/vuex/3.0.1/vuex.js"></script>
-    <script crossorigin="anonymous" integrity="sha384-NSUWFiLl3xpcDPFHQAhVkdkTkB9P1JXlLWNu0HLx3qtmPFViWN6+RdGg6txkxfK0" src="https://lib.baomitu.com/element-ui/2.4.11/index.js"></script>
-    <script crossorigin="anonymous" integrity="sha384-DBGr40OlcawybIFVEG6Yj9+MgP59pd4w47uXBOk7aooAniNjrgjB4/pdDrbBg4uE" src="https://lib.baomitu.com/axios/0.19.0-beta.1/axios.js"></script>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but prac-manage-front doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+    <script crossorigin="anonymous" integrity="sha384-av7a40qvniQJlzaRkLiE3dUj08AsYxc//RGG5AoErYdSBDUbyvEHSv8pJ/HZ98H5"
+            src="https://lib.baomitu.com/vue/2.5.21/vue.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-Zpp7sDgFzONVemEpFSeE3fOV+J8csNjXzbiXL+gTGOujZxXKtbUgW4DEWqZoOQiR"
+            src="https://lib.baomitu.com/vue-router/3.0.2/vue-router.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-RSGJdn4e9fjuHbG8gGlA9HoA0eQjMn8+W3ZLiY9ZElr7wLhLsAQycKpLXcQsioSb"
+            src="https://lib.baomitu.com/vuex/3.0.1/vuex.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-NSUWFiLl3xpcDPFHQAhVkdkTkB9P1JXlLWNu0HLx3qtmPFViWN6+RdGg6txkxfK0"
+            src="https://lib.baomitu.com/element-ui/2.4.11/index.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-DBGr40OlcawybIFVEG6Yj9+MgP59pd4w47uXBOk7aooAniNjrgjB4/pdDrbBg4uE"
+            src="https://lib.baomitu.com/axios/0.19.0-beta.1/axios.js"></script>
+    <script>
+        window.onload = function () {
+            // 阻止双击放大
+            let lastTouchEnd = 0;
+            document.addEventListener('touchstart', function (event) {
+                if (event.touches.length > 1) {
+                    event.preventDefault();
+                }
+            });
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+
+            // 阻止双指放大
+            document.addEventListener('gesturestart', function (event) {
+                event.preventDefault();
+            });
+        }
+    </script>
+</head>
+<body>
+<noscript>
+    <strong>We're sorry but prac-manage-front doesn't work properly without JavaScript enabled. Please enable it to
+        continue.</strong>
+</noscript>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
 </html>

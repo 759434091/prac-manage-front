@@ -91,21 +91,21 @@
         </el-header>
         <el-main>
             <el-table :data="pmInfoList" v-loading="loading">
-                <el-table-column label="学号" prop="pmUser.puStuId"></el-table-column>
-                <el-table-column label="姓名" prop="pmUser.puFullName"></el-table-column>
-                <el-table-column label="登记状态" prop="phiInfoStep">
+                <el-table-column label="学号" prop="pmUser.puStuId" width="130px"></el-table-column>
+                <el-table-column label="姓名" prop="pmUser.puFullName" width="90px"></el-table-column>
+                <el-table-column label="登记状态" prop="phiInfoStep" width="90px">
                     <template slot-scope="scope">
                         <span v-text="$util.getPhiInfoStep(scope.row.phiInfoStep)"></span>
                     </template>
                 </el-table-column>
-                <el-table-column label="实习状态" prop="phiStatus">
+                <el-table-column label="实习状态" prop="phiStatus" width="90px">
                     <template slot-scope="scope">
                         <span v-text="$util.enumVal2Label($util.PhiStatus,scope.row.phiStatus)"></span>
                     </template>
                 </el-table-column>
                 <el-table-column label="实习公司" prop="phiCompany"></el-table-column>
                 <el-table-column label="单位地址" prop="phiCpyLoc"></el-table-column>
-                <el-table-column label="住宿状态" prop="phiAccomType">
+                <el-table-column label="住宿状态" prop="phiAccomType" width="90px">
                     <template slot-scope="scope">
                         <span v-text="$util.enumVal2Label($util.PhiAccomType,scope.row.phiAccomType)"></span>
                     </template>

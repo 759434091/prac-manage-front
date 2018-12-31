@@ -8,7 +8,7 @@
                 </li>
                 <li class="idx-menu-brand">
                     <span class="idx-menu-brand-span">&emsp;</span>
-                    实习登记
+                    <span>实习登记</span>
                     <span class="idx-menu-brand-span">系统&emsp;</span>
                 </li>
                 <li class="idx-menu-datetime" v-html="this.formatDateTime"></li>
@@ -79,6 +79,7 @@
                     accessToken,
                     jwtPmUser
                 })
+                // TODO 角色串联
             }
 
             const _this = this
@@ -142,20 +143,24 @@
                 this.$store.commit('backSetting', this.$route.path)
                 this.$router.push('/index/setting')
             },
-            showAsideMenu(event) {
-                const target = event.currentTarget
-                target.onblur = () => {
+            showAsideMenu() {
+                const hideFunc = (e) => {
                     const items = document.querySelectorAll(".idx-el-aside, .idx-second-menu");
                     for (let item of items) {
                         item.style.visibility = 'hidden'
                         item.style.opacity = '0'
+                        item.style.height = `0`
                     }
-                    target.onblur = null
+                    e.currentTarget.removeEventListener(hideFunc)
                 }
                 const items = document.querySelectorAll(".idx-el-aside, .idx-second-menu");
                 for (let item of items) {
+                    const len = document.querySelectorAll(".idx-second-menu .el-menu-item").length;
                     item.style.visibility = 'visible'
                     item.style.opacity = '1'
+                    item.style.height = `${35 * len}px`
+                    item.addEventListener('mouseup', hideFunc, true)
+                    item.addEventListener('mouseup', hideFunc, true)
                 }
             }
         },
@@ -336,6 +341,10 @@
     }
 
     @media screen and (max-width: 480px) {
+        body {
+            width: calc(100vw);
+        }
+
         .idx-menu-icon {
             float: left;
             display: inline;
@@ -358,16 +367,23 @@
             padding-top: 8px;
         }
 
-        .idx-el-aside, .idx-second-menu {
+        .idx-el-aside {
             border-radius: 3px;
             visibility: hidden;
             opacity: 0;
-            position: fixed;
-            top: 43px;
-            height: auto;
+            position: absolute;
+            top: 45px;
+            height: 0;
             width: 175px !important;
-            z-index: 9999;
+            z-index: 99999;
+            box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
             transition: visibility, opacity 0.2s ease-in-out;
+        }
+
+        .idx-second-menu {
+            position: relative;
+            height: auto;
+            border-radius: 3px;
         }
 
         .idx-second-menu .el-menu-item {
