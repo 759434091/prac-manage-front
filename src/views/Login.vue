@@ -2,7 +2,7 @@
     <el-container class="login-box-container">
         <el-row class="login-box-row" type="flex" justify="center">
             <el-col class="login-box-col" :xl="5" :xs="12" :md="8" :sm="9" :span="12">
-                <h1 class="login-box-brand">Practical Management</h1>
+                <h1 class="login-box-brand">实习登记系统</h1>
                 <el-form class="login-form" ref="loginForm" :model="loginForm" :rules="loginRules">
                     <el-form-item label="用户名/学号/教工号" prop="puId">
                         <el-input v-model="loginForm.puId" @keyup.enter.native="onSubmit"/>
@@ -24,7 +24,7 @@
                         <el-tooltip class="login-form-info" effect="dark" placement="top-start">
                             <div slot="content" v-html="info">
                             </div>
-                            <i class="el-icon-info" @click="giveNotify" style="color: #67C23A;"></i>
+                            <i class="el-icon-info" @click="giveNotify"></i>
                         </el-tooltip>
                     </el-form-item>
                 </el-form>
@@ -138,5 +138,6 @@
 
     .login-form-info {
         margin-left: 1.5rem;
+        cursor: pointer;
     }
 </style>

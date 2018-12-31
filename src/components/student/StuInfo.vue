@@ -33,10 +33,10 @@
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="实习公司" prop="company">
-                    <el-input v-model="firstForm.company" placeholder="请输入公司"></el-input>
+                    <el-input v-model="firstForm.company" placeholder="请输入公司全称"></el-input>
                 </el-form-item>
                 <el-form-item label="单位地点" prop="cpyLoc">
-                    <el-input v-model="firstForm.cpyLoc" placeholder="请输入地址"></el-input>
+                    <el-input v-model="firstForm.cpyLoc" placeholder="请输入详细地址"></el-input>
                 </el-form-item>
                 <el-form-item label="预计住宿状态">
                     <el-select v-model="firstForm.accomType" placeholder="请选择">
@@ -49,7 +49,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="住宿地址">
-                    <el-input v-model="firstForm.rentAddr" placeholder="请输入地址"></el-input>
+                    <el-input v-model="firstForm.rentAddr" placeholder="请输入详细地址"></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
                     <el-input v-model="firstForm.remark" placeholder="附加信息"></el-input>
@@ -101,11 +101,11 @@
                 </el-form-item>
                 <el-form-item label="实习公司" prop="company">
                     <el-input v-model="secondForm.company" :disabled="secondForm.disabled"
-                              placeholder="请输入公司"></el-input>
+                              placeholder="请输入公司全称"></el-input>
                 </el-form-item>
                 <el-form-item label="单位地点" prop="cpyLoc">
                     <el-input v-model="secondForm.cpyLoc" :disabled="secondForm.disabled"
-                              placeholder="请输入地址"></el-input>
+                              placeholder="请输入详细地址"></el-input>
                 </el-form-item>
                 <el-form-item label="住宿状态" prop="accomType">
                     <el-select v-model="secondForm.accomType"
@@ -122,7 +122,7 @@
                 <el-form-item label="住宿地址" prop="rentAddr">
                     <el-input v-model="secondForm.rentAddr"
                               :disabled="secondForm.disabled"
-                              placeholder="请输入地址"></el-input>
+                              placeholder="请输入详细地址"></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
                     <el-input v-model="secondForm.remark"
@@ -192,17 +192,6 @@
                 firstFormRules: {
                     status: [
                         {required: true, message: '请选择实习状态', trigger: 'blur'}
-                    ],
-                    dateRange: [
-                        {required: true, message: '请选择实习时间', trigger: 'blur'}
-                    ],
-                    company: [
-                        {required: true, message: '请键入实习公司', trigger: 'change'},
-                        {min: 10, max: 60, message: '长度在 10 到 60 个字符', trigger: 'change'}
-                    ],
-                    cpyLoc: [
-                        {required: true, message: '请键入单位地址', trigger: 'change'},
-                        {min: 10, max: 60, message: '长度在 10 到 60 个字符', trigger: 'change'}
                     ]
                 },
                 secondForm: {
@@ -226,19 +215,19 @@
                         {required: true, message: '请选择实习时间', trigger: 'blur'}
                     ],
                     company: [
-                        {required: true, message: '请键入实习公司', trigger: 'change'},
-                        {min: 10, max: 60, message: '长度在 10 到 60 个字符', trigger: 'change'}
+                        {required: true, message: '请键入实习公司全称', trigger: 'change'},
+                        {min: 10, max: 60, message: '长度在 12 到 100 个字符', trigger: 'change'}
                     ],
                     cpyLoc: [
-                        {required: true, message: '请键入单位地址', trigger: 'change'},
-                        {min: 10, max: 60, message: '长度在 10 到 60 个字符', trigger: 'change'}
+                        {required: true, message: '请键入详细单位地址', trigger: 'change'},
+                        {min: 10, max: 60, message: '长度在 12 到 100 个字符', trigger: 'change'}
                     ],
                     accomType: [
                         {required: true, message: '请选择住宿状态', trigger: 'blur'}
                     ],
                     rentAddr: [
-                        {required: true, message: '请键入住宿地址', trigger: 'change'},
-                        {min: 10, max: 60, message: '长度在 10 到 60 个字符', trigger: 'change'}
+                        {required: true, message: '请键入详细住宿地址', trigger: 'change'},
+                        {min: 10, max: 60, message: '长度在 12 到 100 个字符', trigger: 'change'}
                     ]
                 },
             }

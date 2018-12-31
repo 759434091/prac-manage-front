@@ -3,7 +3,7 @@
         <el-header>
             <el-menu class="idx-menu" mode="horizontal" background-color="#545c64" text-color="#fff"
                      active-text-color="#ffd04b">
-                <li class="idx-menu-brand">&emsp;实习管理系统&emsp;</li>
+                <li class="idx-menu-brand">&emsp;实习登记系统&emsp;</li>
                 <li class="idx-menu-datetime" v-html="this.formatDateTime"></li>
                 <li class="idx-menu-greeting" v-text="this.greetMsg"></li>
                 <el-submenu class="idx-menu-setting" index="1">
