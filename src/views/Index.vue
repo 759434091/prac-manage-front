@@ -8,7 +8,7 @@
                 <li class="idx-menu-greeting" v-text="this.greetMsg"></li>
                 <el-submenu class="idx-menu-setting" index="1">
                     <template slot="title">
-                        <span v-text="this.jwtPmUser.pmUser.puFullName"></span>
+                        <span v-text="jwtPmUser == null || jwtPmUser === '' ? '' : this.jwtPmUser.pmUser.puFullName"></span>
                     </template>
                     <el-menu-item index="1-1" @click="goSetting">个人中心</el-menu-item>
                     <el-menu-item index="1-3" @click="logout">退出</el-menu-item>
@@ -107,16 +107,21 @@
         },
         methods: {
             roleSwitchCase() {
+                if (this.jwtPmUser == null)
+                    this.$router.push('/login')
                 switch (this.jwtPmUser.role) {
                     case 'STUDENT':
-                        return this.$router.push('/index/student')
+                        this.$router.push('/index/student')
+                        return
                     case 'ADMINISTRATOR':
-                        return this.$router.push('/index/administrator')
+                        this.$router.push('/index/administrator')
+                        return
                     case 'PARENT':
-                        return this.$router.push('/index/parent')
+                        this.$router.push('/index/parent')
+                        return
                     default: {
                         this.$message.warning("用户信息失效，请重新登录")
-                        return this.$router.push('/login')
+                        this.$router.push('/login')
                     }
                 }
             },

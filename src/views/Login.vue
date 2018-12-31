@@ -20,6 +20,12 @@
                                    :disabled="loginProcessing">
                             实验中心认证入口
                         </el-button>
+
+                        <el-tooltip class="login-form-info" effect="dark" placement="top-start">
+                            <div slot="content" v-html="info">
+                            </div>
+                            <i class="el-icon-info" @click="giveNotify" style="color: #67C23A;"></i>
+                        </el-tooltip>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -48,7 +54,11 @@
                         trigger: 'blur'
                     }]
                 },
-                loginProcessing: false
+                loginProcessing: false,
+                info: `<span>学生: 使用实验中心认证进入并请修改密码</span>
+                                <br>
+                                <br>
+                                <span>家长: 使用身份证去掉最后一位的后六位密码, <br>&emsp;&emsp;&nbsp;&nbsp;特殊证件直接输入学号登录</span>`
             }
         },
         methods: {
@@ -80,7 +90,14 @@
                     .finally(() => this.loginProcessing = false)
             },
             goOstec() {
-                document.location.href = 'https://ostec.uestc.edu.cn/authcas/login?service=http://localhost:8080/ostecAuth'
+                document.location.href = 'https://ostec.uestc.edu.cn/authcas/login?service=https://www.xsix103.cn/prac-manage/ostecAuth'
+            },
+            giveNotify() {
+                this.$notify({
+                    dangerouslyUseHTMLString: true,
+                    message: this.info,
+                    duration: 0
+                });
             }
         }
     }
@@ -113,5 +130,9 @@
 
     .login-form .el-form-item.is-required .el-form-item__label:before {
         content: none;
+    }
+
+    .login-form-info {
+        margin-left: 1.5rem;
     }
 </style>

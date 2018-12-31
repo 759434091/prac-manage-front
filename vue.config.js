@@ -1,4 +1,5 @@
 module.exports = {
+    baseUrl: '/prac-manage/',
     configureWebpack: {
         externals: {
             'element-ui': 'element-ui',

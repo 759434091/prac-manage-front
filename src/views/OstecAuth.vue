@@ -8,7 +8,7 @@
         name: 'OstecAuth',
         created() {
             const ticket = this.$route.query.ticket
-            if (ticket == null || ticket === '') this.$router.push('/')
+            if (ticket == null || ticket === '') this.$router.push('/login')
 
             const formData = new FormData();
             formData.append('type', 'ticket')

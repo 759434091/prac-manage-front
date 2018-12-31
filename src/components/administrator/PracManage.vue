@@ -83,7 +83,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-tooltip class="item" effect="dark" placement="top-start"
-                                content="指定了学生信息将会忽略登记状态以及以后选项！">
+                                content="指定了学生信息将会忽略除登记状态以外其他选项！">
                         <i class="el-icon-warning" style="color: #F56C6C;"></i>
                     </el-tooltip>
                 </el-form-item>
