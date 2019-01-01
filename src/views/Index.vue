@@ -439,10 +439,6 @@
             display: none;
         }
 
-        .el-header {
-            height: 40px !important;
-        }
-
         .el-menu--horizontal > .el-submenu .el-submenu__title {
             height: 40px;
             line-height: 40px;

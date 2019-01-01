@@ -85,6 +85,17 @@
                     that.$store.dispatch('updateScreenWidth', window.screenWidth)
                 })()
             }
+
+            const userAgent = navigator.userAgent;
+            if (userAgent.includes('compatible') || userAgent.includes('MSIE')) {
+                this.$alert('为了您的最佳体验, 请使用 Chrome 浏览器访问', '对不起', {
+                    showClose: false,
+                    showConfirmButton: false
+                })
+            }
+            if (!userAgent.includes('Chrome')) {
+                this.$alert('为了您的最佳体验, 建议使用 Chrome 浏览器访问', '警告')
+            }
         }
     }
 </script>

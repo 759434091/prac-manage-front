@@ -9,7 +9,7 @@
             </el-steps>
         </el-header>
         <el-main>
-            <el-form v-loading="loading" :disabled="loading" v-if="active === 0"
+            <el-form v-loading="loading" :disabled="loading" v-show="active === 0"
                      :size="size"
                      :model="firstForm"
                      :rules="firstFormRules"
@@ -74,10 +74,11 @@
                 </el-form-item>
             </el-form>
 
-            <el-form v-loading="loading" :disabled="loading" v-if="active === 1 || active === 2"
+            <el-form v-loading="loading"
+                     :disabled="loading" v-show="active === 1 || active === 2"
                      :size="size"
-                     :model="secondForm"
                      :rules="secondFormRules"
+                     :model="secondForm"
                      ref="secondForm" label-width="110px" :label-position="labelPosition">
                 <el-form-item label="目前状态" prop="status"
                               :size="size">
@@ -102,13 +103,13 @@
                             :default-time="['00:00:00', '00:00:00']">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item label="实习公司" prop="company">
+                <el-form-item label="实习公司" prop="company" autocomplete="off">
                     <el-input v-model="secondForm.company" :disabled="secondForm.disabled"
                               placeholder="请输入公司全称"></el-input>
                 </el-form-item>
-                <el-form-item label="单位地点" prop="cpyLoc">
+                <el-form-item label="单位地址" prop="cpyLoc" autocomplete="off">
                     <el-input v-model="secondForm.cpyLoc" :disabled="secondForm.disabled"
-                              placeholder="请输入详细地址"></el-input>
+                              placeholder="请输入详细单位地址"></el-input>
                 </el-form-item>
                 <el-form-item label="住宿状态" prop="accomType">
                     <el-select v-model="secondForm.accomType"
@@ -122,10 +123,9 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="住宿地址" prop="rentAddr">
-                    <el-input v-model="secondForm.rentAddr"
-                              :disabled="secondForm.disabled"
-                              placeholder="请输入详细地址"></el-input>
+                <el-form-item label="住宿地址" prop="rentAddr" autocomplete="off">
+                    <el-input v-model="secondForm.rentAddr" :disabled="secondForm.disabled"
+                              placeholder="请输入详细住宿地址"></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
                     <el-input v-model="secondForm.remark"
@@ -227,7 +227,6 @@
                     ]
                 },
                 secondForm: {
-                    disabled: true,
                     status: null,
                     dateRange: null,
                     company: null,
@@ -237,7 +236,8 @@
                     remark: null,
                     fileList: [],
                     fileRes: null,
-                    hideUpload: false
+                    hideUpload: false,
+                    disabled: true
                 },
                 rawForm: null,
                 secondFormRules: {
@@ -250,19 +250,19 @@
                     ],
                     company: [
                         {required: true, message: '请键入实习公司全称', trigger: 'change'},
-                        {min: 10, max: 60, message: '长度在 12 到 100 个字符', trigger: 'change'}
+                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'change'}
                     ],
                     cpyLoc: [
                         {required: true, message: '请键入详细单位地址', trigger: 'change'},
-                        {min: 10, max: 60, message: '长度在 12 到 100 个字符', trigger: 'change'}
+                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'change'}
+                    ],
+                    rentAddr: [
+                        {required: true, message: '请键入详细住宿地址', trigger: 'change'},
+                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'change'}
                     ],
                     accomType: [
                         {required: true, message: '请选择住宿状态', trigger: 'blur'},
                         {validator: phiAccomTypeValid, trigger: 'change'}
-                    ],
-                    rentAddr: [
-                        {required: true, message: '请键入详细住宿地址', trigger: 'change'},
-                        {min: 10, max: 60, message: '长度在 12 到 100 个字符', trigger: 'change'}
                     ]
                 },
             }
@@ -425,6 +425,7 @@
                     })
             },
             submitSecondForm() {
+                debugger
                 this.$refs.secondForm
                     .validate((valid) => {
                         if (!valid)
@@ -455,29 +456,34 @@
                         if (this.secondForm.remark !== this.rawForm.remark)
                             pmInfo.phiRemark = this.secondForm.remark
 
-                        this.$request
-                            .put(`/info/${this.jwtPmUser.id}`, pmInfo, {
-                                params: {
-                                    type: 'second'
-                                }
-                            })
-                            .then(res => {
-                                if (!res.data.success) {
-                                    this.$message.error(res.data.message)
-                                    return
-                                }
+                        this.$confirm("确定修改?")
+                            .then(() => {
+                                this.$request
+                                    .put(`/info/${this.jwtPmUser.id}`, pmInfo, {
+                                        params: {
+                                            type: 'second'
+                                        }
+                                    })
+                                    .then(res => {
+                                        if (!res.data.success) {
+                                            this.$message.error(res.data.message)
+                                            return
+                                        }
 
-                                this.$message.success("提交成功")
-                                this.create();
+                                        this.$message.success("提交成功")
+                                        this.create();
+                                    })
+                                    .catch(err => {
+                                        if (!err.response || !err.response.data)
+                                            return
+                                        if (!err.response.data.message) {
+                                            this.$message.error(err.response.data)
+                                            return
+                                        }
+                                        this.$message.error(err.response.data.message)
+                                    })
                             })
-                            .catch(err => {
-                                if (!err.response || !err.response.data)
-                                    return
-                                if (!err.response.data.message) {
-                                    this.$message.error(err.response.data)
-                                    return
-                                }
-                                this.$message.error(err.response.data.message)
+                            .catch(() => {
                             })
 
                     })

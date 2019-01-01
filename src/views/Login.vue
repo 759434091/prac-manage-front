@@ -11,14 +11,14 @@
                         <el-input type="password" v-model="loginForm.puPassword" @keyup.enter.native="onSubmit"/>
                     </el-form-item>
                     <el-form-item class="login-button-group">
-                        <el-button class="login-form-button" type="primary" @click="onSubmit"
+                        <el-button class="login-form-button" type="primary" @click="onSubmit" size="mini"
                                    :loading="loginProcessing"
                                    :disabled="loginProcessing">
                             登录
                         </el-button>
-                        <el-button class="login-form-button" type="info" @click="goOstec"
+                        <el-button class="login-form-button" type="info" @click="goOstec" size="mini"
                                    :disabled="loginProcessing">
-                            实验中心认证入口
+                            使用实验中心登录
                         </el-button>
 
                         <el-tooltip class="login-form-info" effect="dark" placement="top-start">
@@ -57,8 +57,10 @@
                 loginProcessing: false,
                 info: `<span>请使用 Chrome 浏览器以获得最佳体验</span>
                                 <br>
+                                <span>学生请勿使用身份证密码登录, 否则没有登记权限</span>
                                 <br>
-                                <span>学生: 使用实验中心认证进入并请修改密码</span>
+                                <br>
+                                <span>学生: 初次登录使用实验中心注册并请修改本系统密码</span>
                                 <br>
                                 <br>
                                 <span>家长: 使用身份证去掉最后一位的后六位密码, <br>&emsp;&emsp;&nbsp;&nbsp;特殊证件直接输入学号登录</span>`
@@ -66,6 +68,7 @@
         },
         methods: {
             onSubmit() {
+                this.$notify.closeAll()
                 this.loginProcessing = true
                 const formData = new FormData()
                 formData.append('type', 'username')
