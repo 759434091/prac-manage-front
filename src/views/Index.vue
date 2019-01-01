@@ -19,6 +19,7 @@
                     </template>
                     <el-menu-item index="1-1" @click="goSetting">个人中心</el-menu-item>
                     <el-menu-item index="1-3" @click="logout">退出</el-menu-item>
+                    <el-menu-item index="1-2" @click="dialogVisible = true">关于</el-menu-item>
                 </el-submenu>
             </el-menu>
         </el-header>
@@ -26,6 +27,31 @@
             <router-view>
             </router-view>
         </transition>
+        <el-dialog
+                title="实习登记系统"
+                :visible.sync="dialogVisible"
+                width="30%"
+                :before-close="handleClose">
+            <template slot="title">
+                <span class="el-dialog__title">实习登记系统&nbsp;<small style="color: gray">beta</small></span>
+            </template>
+            <el-form class="table-expand" size="mini" label-width="80px" label-position="right">
+                <el-form-item label="版本">
+                    <span>0.0.1-beta</span>
+                </el-form-item>
+                <el-form-item label="反馈">
+                    <span>QQ: 2541175183</span>
+                    <br>
+                    <span>EMAIL: 2541175183@qq.com</span>
+                </el-form-item>
+                <el-form-item label="">
+                    <span>时间仓促, 欢迎提BUG</span>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
     </el-container>
 </template>
 
@@ -108,6 +134,7 @@
         },
         data() {
             return {
+                dialogVisible: false,
                 date: new Date(),
                 timer: null,
             }
@@ -258,6 +285,21 @@
 
     .idx-main-pagination {
         float: right;
+    }
+
+    .table-expand {
+        font-size: 0;
+    }
+
+    .table-expand label {
+        width: 90px;
+        color: #99a9bf;
+    }
+
+    .table-expand .el-form-item {
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 50%;
     }
 
     @media screen and (max-width: 1440px) {

@@ -14,7 +14,7 @@
                      :model="firstForm"
                      :rules="firstFormRules"
                      ref="firstForm" label-width="110px" :label-position="labelPosition">
-                <el-form-item label="实习状态" prop="status">
+                <el-form-item label="目前状态" prop="status">
                     <el-select v-model="firstForm.status" placeholder="请选择">
                         <el-option
                                 v-for="(item,idx) in this.$util.PhiStatus"
@@ -79,7 +79,7 @@
                      :model="secondForm"
                      :rules="secondFormRules"
                      ref="secondForm" label-width="110px" :label-position="labelPosition">
-                <el-form-item label="实习状态" prop="status"
+                <el-form-item label="目前状态" prop="status"
                               :size="size">
                     <el-select v-model="secondForm.status"
                                @change="changePhiStatus"
