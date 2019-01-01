@@ -215,6 +215,10 @@
                     this.selectForm.pmInfo.phiStatus = null
                 if (this.selectForm.pmInfo.phiAccomType === 0)
                     this.selectForm.pmInfo.phiAccomType = null
+                if (this.selectForm.pmUser.puStuId == null || this.selectForm.pmUser.puStuId.trim() === '')
+                    this.selectForm.pmUser.puStuId = null
+                if (this.selectForm.pmUser.puFullName == null || this.selectForm.pmUser.puFullName.trim() === '')
+                    this.selectForm.pmUser.puFullName = null
                 this.$request
                     .post(
                         '/info', this.selectForm, {
