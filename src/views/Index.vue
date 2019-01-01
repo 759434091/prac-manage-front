@@ -30,7 +30,7 @@
         <el-dialog
                 title="实习登记系统"
                 :visible.sync="dialogVisible"
-                width="300px">
+                class="idx-about-dialog">
             <template slot="title">
                 <span class="el-dialog__title">实习登记系统&nbsp;<small style="color: gray">beta</small></span>
             </template>
@@ -284,6 +284,10 @@
 
     .idx-main-pagination {
         float: right;
+    }
+
+    .idx-about-dialog .el-dialog {
+        min-width: 300px;
     }
 
     .table-expand {
