@@ -190,6 +190,22 @@
             }
         },
         data() {
+            const phiStatusValid = (rule, value, callback) => {
+                if (value === this.$util.PhiStatus.NULL.value) {
+                    callback(new Error('请选择'));
+                    return
+                }
+                callback()
+            }
+
+            const phiAccomTypeValid = (rule, value, callback) => {
+                if (value === this.$util.PhiAccomType.NULL.value) {
+                    callback(new Error('请选择'));
+                    return
+                }
+                callback()
+            }
+
             return {
                 loading: false,
                 active: 0,
@@ -206,7 +222,8 @@
                 },
                 firstFormRules: {
                     status: [
-                        {required: true, message: '请选择实习状态', trigger: 'blur'}
+                        {required: true, message: '请选择实习状态', trigger: 'blur'},
+                        {validator: phiStatusValid, trigger: 'blur'}
                     ]
                 },
                 secondForm: {
@@ -225,7 +242,8 @@
                 rawForm: null,
                 secondFormRules: {
                     status: [
-                        {required: true, message: '请选择实习状态', trigger: 'blur'}
+                        {required: true, message: '请选择实习状态', trigger: 'blur'},
+                        {validator: phiStatusValid, trigger: 'change'}
                     ],
                     dateRange: [
                         {required: true, message: '请选择实习时间', trigger: 'blur'}
@@ -239,7 +257,8 @@
                         {min: 10, max: 60, message: '长度在 12 到 100 个字符', trigger: 'change'}
                     ],
                     accomType: [
-                        {required: true, message: '请选择住宿状态', trigger: 'blur'}
+                        {required: true, message: '请选择住宿状态', trigger: 'blur'},
+                        {validator: phiAccomTypeValid, trigger: 'change'}
                     ],
                     rentAddr: [
                         {required: true, message: '请键入详细住宿地址', trigger: 'change'},
@@ -374,28 +393,35 @@
             changePhiStatus(val) {
                 const pmInfo = {}
                 pmInfo.phiStatus = val
-                this.$request
-                    .put(`/info/${this.jwtPmUser.id}`, pmInfo, {
-                        params: {
-                            type: 'second'
-                        }
-                    })
-                    .then(res => {
-                        if (!res.data.success) {
-                            this.$message.error(res.data.message)
-                            return
-                        }
+                if (val === this.$util.PhiStatus.NULL.value)
+                    return
+                this.$confirm('确定修改状态？', '实习状态')
+                    .then(() => {
+                        this.$request
+                            .put(`/info/${this.jwtPmUser.id}`, pmInfo, {
+                                params: {
+                                    type: 'second'
+                                }
+                            })
+                            .then(res => {
+                                if (!res.data.success) {
+                                    this.$message.error(res.data.message)
+                                    return
+                                }
 
-                        this.$message.success("更新状态成功")
+                                this.$message.success("更新状态成功")
+                            })
+                            .catch(err => {
+                                if (!err.response || !err.response.data)
+                                    return
+                                if (!err.response.data.message) {
+                                    this.$message.error(err.response.data)
+                                    return
+                                }
+                                this.$message.error(err.response.data.message)
+                            })
                     })
-                    .catch(err => {
-                        if (!err.response || !err.response.data)
-                            return
-                        if (!err.response.data.message) {
-                            this.$message.error(err.response.data)
-                            return
-                        }
-                        this.$message.error(err.response.data.message)
+                    .catch(() => {
                     })
             },
             submitSecondForm() {
