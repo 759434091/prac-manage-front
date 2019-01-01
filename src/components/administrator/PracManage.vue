@@ -132,10 +132,10 @@
                                 <span v-text="props.row.phiCpyLoc"></span>
                             </el-form-item>
                             <el-form-item label="开始日期">
-                                <span v-text="new Date(props.row.phiStartDate).toLocaleDateString()"></span>
+                                <span v-text="dataFormat(props.row.phiStartDate)"></span>
                             </el-form-item>
                             <el-form-item label="结束日期">
-                                <span v-text="new Date(props.row.phiEndDate).toLocaleDateString()"></span>
+                                <span v-text="dataFormat(props.row.phiEndDate)"></span>
                             </el-form-item>
                             <el-form-item label="住宿状态">
                                 <span v-text="$util.enumVal2Label($util.PhiAccomType,props.row.phiAccomType)"></span>
@@ -144,7 +144,9 @@
                                 <span v-text="props.row.phiRentAddr"></span>
                             </el-form-item>
                             <el-form-item label="住宿协议">
-                                <el-button @click="dlRentFile(props.row.phiRentCert)" type="text">下载查看</el-button>
+                                <span v-if="props.row.phiRentCert == null || props.row.phiRentCert === ''">未上传</span>
+                                <el-button v-else @click="dlRentFile(props.row.phiRentCert)" type="text">下载查看
+                                </el-button>
                             </el-form-item>
                             <el-form-item label="备注">
                                 <span v-text="props.row.phiRemark"></span>
@@ -170,6 +172,7 @@
 </template>
 
 <script>
+    const rawDate = new Date(1970, 1, 1)
     export default {
         name: "PracManage",
         created() {
@@ -274,6 +277,11 @@
                         phiRentCert: null
                     }
                 }
+            },
+            dataFormat(dateStr) {
+                const date = new Date(dateStr)
+                if (date === rawDate) return ''
+                return date.toLocaleDateString()
             }
         }
     }

@@ -55,7 +55,10 @@
                     }]
                 },
                 loginProcessing: false,
-                info: `<span>学生: 使用实验中心认证进入并请修改密码</span>
+                info: `<span>请使用 Chrome 浏览器以获得最佳体验</span>
+                                <br>
+                                <br>
+                                <span>学生: 使用实验中心认证进入并请修改密码</span>
                                 <br>
                                 <br>
                                 <span>家长: 使用身份证去掉最后一位的后六位密码, <br>&emsp;&emsp;&nbsp;&nbsp;特殊证件直接输入学号登录</span>`

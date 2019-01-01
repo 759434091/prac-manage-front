@@ -35,7 +35,7 @@
             <template slot="title">
                 <span class="el-dialog__title">实习登记系统&nbsp;<small style="color: gray">beta</small></span>
             </template>
-            <el-form class="table-expand" size="mini" label-width="80px" label-position="right">
+            <el-form class="table-expand" size="mini" label-width="80px" label-position="left">
                 <el-form-item label="版本">
                     <span>0.0.1-beta</span>
                 </el-form-item>
@@ -43,10 +43,11 @@
                     <span>QQ: 2541175183</span>
                     <br>
                     <span>EMAIL: 2541175183@qq.com</span>
+                    <br>
+                    <br>
                 </el-form-item>
-                <el-form-item label="">
-                    <span>时间仓促, 欢迎提BUG</span>
-                </el-form-item>
+                <el-form-item label="请使用 Chrome 浏览器以获得最佳体验" label-width="300px"></el-form-item>
+                <el-form-item label="时间仓促, 欢迎提BUG" label-width="300px"></el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
