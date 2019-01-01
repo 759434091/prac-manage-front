@@ -50,6 +50,7 @@
                                     const data = err.config.data
                                     const method = err.config.method
                                     const params = err.config.params
+                                    const contentType = err.config.headers['Content-Type']
 
                                     _this
                                         .$request({
@@ -58,6 +59,7 @@
                                             params,
                                             method,
                                             headers: {
+                                                'Content-Type': contentType,
                                                 Authorization: `Bearer ${res.data.accessToken}`
                                             }
                                         })

@@ -90,24 +90,31 @@
             </el-form>
         </el-header>
         <el-main>
-            <el-table :data="pmInfoList" v-loading="loading">
-                <el-table-column label="学号" prop="pmUser.puStuId" width="130px"></el-table-column>
-                <el-table-column label="姓名" prop="pmUser.puFullName" width="90px"></el-table-column>
-                <el-table-column label="登记状态" prop="phiInfoStep" width="90px">
+            <el-table :data="pmInfoList" v-loading="loading" size="mini">
+                <el-table-column label="学号" prop="pmUser.puStuId" width="120px"></el-table-column>
+                <el-table-column label="姓名" prop="pmUser.puFullName" width="80px"></el-table-column>
+                <el-table-column label="登记状态" prop="phiInfoStep" width="70px">
                     <template slot-scope="scope">
                         <span v-text="$util.getPhiInfoStep(scope.row.phiInfoStep)"></span>
                     </template>
                 </el-table-column>
-                <el-table-column label="实习状态" prop="phiStatus" width="90px">
+                <el-table-column label="实习状态" prop="phiStatus" width="70px">
                     <template slot-scope="scope">
                         <span v-text="$util.enumVal2Label($util.PhiStatus,scope.row.phiStatus)"></span>
                     </template>
                 </el-table-column>
                 <el-table-column label="实习公司" prop="phiCompany"></el-table-column>
                 <el-table-column label="单位地址" prop="phiCpyLoc"></el-table-column>
-                <el-table-column label="住宿状态" prop="phiAccomType" width="90px">
+                <el-table-column label="住宿状态" prop="phiAccomType" width="70px">
                     <template slot-scope="scope">
                         <span v-text="$util.enumVal2Label($util.PhiAccomType,scope.row.phiAccomType)"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column width="90px">
+                    <template slot-scope="scope">
+                        <el-button type="info" plain size="mini" @click="showHistoryDialog(scope.row.pmUser)">
+                            查看历史
+                        </el-button>
                     </template>
                 </el-table-column>
                 <el-table-column type="expand">
@@ -168,13 +175,18 @@
                     :total="pagination.total">
             </el-pagination>
         </el-footer>
+        <HistoryDialog :dialog-visible="historyDialog.dialogVisible" :pm-user="historyDialog.pmUser"
+                       @close="closeHistoryDialog"></HistoryDialog>
     </el-container>
 </template>
 
 <script>
+    import HistoryDialog from "@/components/administrator/HistoryDialog";
+
     const rawDate = new Date(1970, 1, 1)
     export default {
         name: "PracManage",
+        components: {HistoryDialog},
         created() {
             this.handleCurrentChange(1)
         },
@@ -202,7 +214,11 @@
                     total: 0,
                     size: 10
                 },
-                pmInfoList: []
+                pmInfoList: [],
+                historyDialog: {
+                    pmUser: null,
+                    dialogVisible: false
+                }
             }
         },
         methods: {
@@ -290,6 +306,14 @@
                     date.getDate() === rawDate.getDate())
                     return ''
                 return date.toLocaleDateString()
+            },
+            showHistoryDialog(pmUser) {
+                this.historyDialog.pmUser = pmUser
+                this.historyDialog.dialogVisible = true
+            },
+            closeHistoryDialog() {
+                this.historyDialog.pmUser = null
+                this.historyDialog.dialogVisible = false
             }
         }
     }

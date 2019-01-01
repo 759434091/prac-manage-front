@@ -1,93 +1,88 @@
 <template>
-    <el-container>
-        <el-header>
-            <el-form :model="selectForm" size="mini" inline="">
-                <el-form-item label="学号">
-                    <el-input v-model="selectForm.stuId" placeholder="学号、班级、年级"></el-input>
-                </el-form-item>
-                <el-form-item label="姓名">
-                    <el-input v-model="selectForm.fullName" placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="时间段">
-                    <el-date-picker
-                            type="daterange"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            v-model="selectForm.dateRange"
-                            :default-time="['00:00:00', '00:00:00']">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="onSearch()">搜索</el-button>
-                </el-form-item>
-            </el-form>
-        </el-header>
-        <el-main>
-            <el-table :data="pmHisList" size="mini">
-                <el-table-column label="学号" prop="puStuId" width="110px"></el-table-column>
-                <el-table-column label="姓名" prop="puFullName" width="80px"></el-table-column>
-                <el-table-column label="操作记录" prop="phOperation">
-                    <template slot-scope="scope">
-                        <span v-text="showOperation(scope.row.phOperation)"></span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作时间" prop="phTime" width="150px">
-                    <template slot-scope="scope">
-                        <span v-text="new Date(scope.row.phTime).toLocaleString()"></span>
-                    </template>
-                </el-table-column>
-                <el-table-column type="expand">
-                    <template slot-scope="scope">
-                        <el-form size="mini" inline class="table-expand">
-                            <el-form-item label="学号">
-                                <span v-text="scope.row.puStuId"></span>
-                            </el-form-item>
-                            <el-form-item label="姓名">
-                                <span v-text="scope.row.puFullName"></span>
-                            </el-form-item>
-                            <el-form-item label="操作记录">
-                                <span v-text="showOperation(scope.row.phOperation)"></span>
-                            </el-form-item>
-                            <el-form-item label="操作时间">
-                                <span v-text="new Date(scope.row.phTime).toLocaleString()"></span>
-                            </el-form-item>
-                            <el-form-item label="操作备注">
-                                <span v-text="scope.row.phRemark"></span>
-                            </el-form-item>
-                        </el-form>
-                    </template>
-                </el-table-column>
-            </el-table>
-        </el-main>
-        <el-footer>
-            <el-pagination
-                    class="idx-main-pagination"
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page.sync="pagination.currentPage"
-                    :page-size="pagination.size"
-                    :page-sizes="[10, 30, 50, 100, 200]"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="pagination.total">
-            </el-pagination>
-        </el-footer>
-    </el-container>
+    <el-dialog
+            :title="getTitle()"
+            width="900px"
+            :close-on-click-modal="false"
+            :close-on-press-escape="false"
+            :visible="dialogVisible"
+            :before-close="close">
+        <el-container>
+            <el-main>
+                <el-table :data="pmHisList" size="mini">
+                    <el-table-column label="学号" prop="puStuId" width="110px"></el-table-column>
+                    <el-table-column label="姓名" prop="puFullName" width="80px"></el-table-column>
+                    <el-table-column label="操作记录" prop="phOperation">
+                        <template slot-scope="scope">
+                            <span v-text="showOperation(scope.row.phOperation)"></span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作时间" prop="phTime" width="150px">
+                        <template slot-scope="scope">
+                            <span v-text="new Date(scope.row.phTime).toLocaleString()"></span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column type="expand">
+                        <template slot-scope="scope">
+                            <el-form size="mini" inline class="table-expand">
+                                <el-form-item label="学号">
+                                    <span v-text="scope.row.puStuId"></span>
+                                </el-form-item>
+                                <el-form-item label="姓名">
+                                    <span v-text="scope.row.puFullName"></span>
+                                </el-form-item>
+                                <el-form-item label="操作记录">
+                                    <span v-text="showOperation(scope.row.phOperation)"></span>
+                                </el-form-item>
+                                <el-form-item label="操作时间">
+                                    <span v-text="new Date(scope.row.phTime).toLocaleString()"></span>
+                                </el-form-item>
+                                <el-form-item label="操作备注">
+                                    <span v-text="scope.row.phRemark"></span>
+                                </el-form-item>
+                            </el-form>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-main>
+            <el-footer>
+                <el-pagination
+                        small
+                        class="idx-main-pagination"
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="pagination.currentPage"
+                        :page-size="pagination.size"
+                        :page-sizes="[10, 30, 50, 100, 200]"
+                        layout="total, prev, pager, next"
+                        :total="pagination.total">
+                </el-pagination>
+            </el-footer>
+        </el-container>
+    </el-dialog>
 </template>
 
 <script>
     export default {
-        name: "HistoryManage",
+        name: "HistoryDialog",
         created() {
+            if (this.pmUser == null || this.pmUser === '')
+                return
             this.handleCurrentChange(1)
+        },
+        watch: {
+            pmUser(u) {
+                if (u == null || u === '')
+                    return
+                this.handleCurrentChange(1)
+            }
+        },
+        props: {
+            pmUser: Object,
+            dialogVisible: Boolean
         },
         data() {
             return {
                 loading: false,
-                selectForm: {
-                    stuId: null,
-                    fullName: null,
-                    dateRange: []
-                },
                 pagination: {
                     currentPage: 1,
                     total: 0,
@@ -97,8 +92,14 @@
             }
         },
         methods: {
-            onSearch() {
-                this.handleCurrentChange(1)
+            getTitle() {
+                if (this.pmUser == null || this.pmUser === '')
+                    return ''
+                return `${this.pmUser.puStuId} ${this.pmUser.puFullName}`
+            },
+            close() {
+                this.$emit('close')
+                this.pmHisList = null
             },
             handleCurrentChange(page) {
                 this.loading = true
@@ -109,10 +110,7 @@
                             params: {
                                 page: page,
                                 pageSize: this.pagination.size,
-                                stuId: this.selectForm.stuId,
-                                fullName: this.selectForm.fullName,
-                                startDate: this.selectForm.dateRange[0] == null ? null : this.selectForm.dateRange[0],
-                                endDate: this.selectForm.dateRange[1] == null ? null : this.selectForm.dateRange[1]
+                                stuId: this.pmUser.puStuId,
                             }
                         }
                     )
@@ -229,5 +227,6 @@
     }
 </script>
 
-<style>
+<style scoped>
+
 </style>
