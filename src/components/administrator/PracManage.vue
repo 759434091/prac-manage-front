@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-header>
+        <el-header height="auto">
             <el-form size="mini" :model="selectForm" :inline="true" label-width="80px" label-position="left">
                 <el-form-item label="学号">
                     <el-input v-model="selectForm.pmUser.puStuId" placeholder="学号、班级、年级"></el-input>

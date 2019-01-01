@@ -22,6 +22,19 @@
             src="https://lib.baomitu.com/axios/0.19.0-beta.1/axios.js"></script>
     <script>
         window.onload = function () {
+            function stopTouchendPropagationAfterScroll() {
+                var locked = false;
+                window.addEventListener('touchmove', function (ev) {
+                    locked || (locked = true, window.addEventListener('touchend', stopTouchendPropagation, true));
+                }, true);
+                function stopTouchendPropagation(ev) {
+                    ev.stopPropagation();
+                    window.removeEventListener('touchend', stopTouchendPropagation, true);
+                    locked = false;
+                }
+            }
+
+            stopTouchendPropagationAfterScroll()
             // 阻止双击放大
             let lastTouchEnd = 0;
             document.addEventListener('touchstart', function (event) {

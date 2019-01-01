@@ -178,7 +178,7 @@
                         item.style.opacity = '0'
                         item.style.height = `0`
                     }
-                    e.currentTarget.removeEventListener(hideFunc)
+                    e.currentTarget.removeEventListener('mouseup', hideFunc)
                 }
                 const items = document.querySelectorAll(".idx-el-aside, .idx-second-menu");
                 for (let item of items) {
@@ -186,7 +186,6 @@
                     item.style.visibility = 'visible'
                     item.style.opacity = '1'
                     item.style.height = `${35 * len}px`
-                    item.addEventListener('mouseup', hideFunc, true)
                     item.addEventListener('mouseup', hideFunc, true)
                 }
             }
