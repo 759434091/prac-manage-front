@@ -87,7 +87,7 @@
             }
 
             const userAgent = navigator.userAgent;
-            if (userAgent.includes('compatible') || userAgent.includes('MSIE')) {
+            if (userAgent.includes('compatible') || userAgent.includes('MSIE') || userAgent.includes('Trident')) {
                 this.$alert('为了您的最佳体验, 请使用 Chrome 浏览器访问', '对不起', {
                     showClose: false,
                     showConfirmButton: false
