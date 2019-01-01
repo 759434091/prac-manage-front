@@ -415,10 +415,10 @@
             position: absolute;
             top: 45px;
             height: 0;
-            width: 175px !important;
+            width: 174px !important;
             z-index: 99999;
             box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
-            transition: visibility, opacity 0.2s ease-in-out;
+            transition: visibility, opacity, height 0.2s ease-in-out 0.2s;
         }
 
         .idx-second-menu {
