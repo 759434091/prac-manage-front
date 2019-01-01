@@ -279,8 +279,12 @@
                 }
             },
             dataFormat(dateStr) {
+                if (dateStr == null) return ''
                 const date = new Date(dateStr)
-                if (date === rawDate) return ''
+                if (date.getFullYear() === rawDate.getFullYear() &&
+                    date.getMonth() === rawDate.getMonth() &&
+                    date.getDate() === rawDate.getDate())
+                    return ''
                 return date.toLocaleDateString()
             }
         }

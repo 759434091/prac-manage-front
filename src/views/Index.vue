@@ -30,8 +30,7 @@
         <el-dialog
                 title="实习登记系统"
                 :visible.sync="dialogVisible"
-                width="30%"
-                :before-close="handleClose">
+                width="30%">
             <template slot="title">
                 <span class="el-dialog__title">实习登记系统&nbsp;<small style="color: gray">beta</small></span>
             </template>
