@@ -108,15 +108,16 @@
                 // TODO 角色串联
             }
 
-            const _this = this
-            this.$store
-                .dispatch('getLocalStorageState')
+            this.$request
+                .get(`/users/${this.jwtPmUser.id}`)
                 .then(res => {
-                    if (!res)
-                        _this.$router.push('/')
-
+                    this.$store.commit('setJwtPmUser', res.data)
                     if (this.$route.fullPath === '/index' || this.$route.fullPath === '/index/')
-                        _this.roleSwitchCase()
+                        this.roleSwitchCase()
+                })
+                .catch(() => {
+                    this.$message.warning("用户信息失效，请重新登录")
+                    this.$router.push('/login')
                 })
         },
         watch: {

@@ -25,6 +25,10 @@ export default new Vuex.Store({
         },
         backSetting(state, backSetting) {
             state.backSetting = backSetting
+        },
+        setJwtPmUser(state, jwtPmUser) {
+            state.jwtPmUser = jwtPmUser
+            localStorage.setItem('jwtPmUser', JSON.stringify(jwtPmUser))
         }
     },
     actions: {
