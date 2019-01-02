@@ -92,11 +92,9 @@
                     showClose: false,
                     showConfirmButton: false
                 })
-            }
-            else if (userAgent.includes('Safari')) {
-                this.$alert('本网站不兼容Safari, 为了您的最佳体验, 建议使用 Chrome 浏览器访问', '对不起')
-            }
-            else if (!userAgent.includes('Chrome') && !userAgent.includes('Firefox')) {
+            } else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+                this.$alert('为了您的最佳体验, 建议使用 Chrome 浏览器访问', '警告')
+            } else if (!userAgent.includes('Chrome') && !userAgent.includes('Firefox')) {
                 this.$alert('为了您的最佳体验, 建议使用 Chrome 浏览器访问', '警告')
             }
         }
