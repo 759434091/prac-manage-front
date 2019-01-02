@@ -22,7 +22,18 @@
                         </el-button>
                     </el-form-item>
                 </el-form>
-                <div v-html="info"></div>
+                <el-form size="mini" label-width="40px" label-position="left">
+                    <el-form-item label="学生">
+                        <span>初次登录使用实验中心登录进行登记, 并请修改本系统密码</span>
+                    </el-form-item>
+                    <el-form-item label="家长">
+                        <span>使用身份证去掉最后一位的后六位密码, 特殊证件直接输入学号登录查看</span>
+                    </el-form-item>
+                </el-form>
+                <span>学生请勿使用身份证密码登录, 否则没有权限</span>
+                <span>建议使用 Chrome 浏览器以获得最佳体验</span>
+                <br>
+                <br>
             </el-col>
         </el-row>
     </el-container>
@@ -49,20 +60,7 @@
                         trigger: 'change'
                     }]
                 },
-                loginProcessing: false,
-                info: `
-                                <span>学生: 初次登录使用实验中心注册<br>&emsp;&emsp;&nbsp;&nbsp;并请修改本
-                                系统密码</span>
-                                <br>
-                                <span>家长: 使用身份证去掉最后一位的后<br>&emsp;&emsp;&nbsp;&nbsp;六位密码, 特殊证件直接输入学号登录</span>
-                                <br>
-                                <br>
-                                <span>请使用 Chrome 浏览器以获得最佳体验</span>
-                                <br>
-                                <span>学生请勿使用身份证密码登录, 否则没有权限</span>
-                                <br>
-                                <br>
-                                `
+                loginProcessing: false
             }
         },
         created() {
