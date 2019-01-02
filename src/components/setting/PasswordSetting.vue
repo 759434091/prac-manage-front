@@ -4,7 +4,7 @@
             <el-form v-if="passwordCheck.canModify" :model="passwordForm" :rules="passwordFormRules"
                      label-width="100px" label-position="right"
                      ref="passwordForm" class="pass-form">
-                <el-form-item label="原密码" v-if="!passwordCheck.noLogin" prop="noLogin">
+                <el-form-item label="原密码" v-show="!passwordCheck.noLogin" prop="oriPass">
                     <el-col :span="12" :xl="8" :lg="14" :md="18">
                         <el-input type="password" v-model="passwordForm.oriPass" placeholder="请输入原密码"></el-input>
                     </el-col>
@@ -72,7 +72,7 @@
                     checkPass: null
                 },
                 passwordFormRules: {
-                    noLogin: [
+                    oriPass: [
                         {required: true, message: '请输入原密码', trigger: 'blur'}
                     ],
                     newPass: [
