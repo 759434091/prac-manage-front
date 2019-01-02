@@ -79,5 +79,10 @@ export default {
         const res = this.enumVal2Label(this.PhiInfoStep, val)
         if (res === '') return '未登记'
         return res
+    },
+    formatDateTime(dateTimeStr) {
+        const date = new Date(dateTimeStr);
+        if (date == null) return ''
+        return date.toLocaleString()
     }
 }
