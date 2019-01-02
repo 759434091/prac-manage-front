@@ -93,7 +93,7 @@
                     showConfirmButton: false
                 })
             }
-            else if (!userAgent.includes('Chrome') && !userAgent.includes('Firefox')) {
+            else if (!userAgent.includes('Chrome') && !userAgent.includes('Firefox') && !userAgent.includes('Safari')) {
                 this.$alert('为了您的最佳体验, 建议使用 Chrome 浏览器访问', '警告')
             }
         }

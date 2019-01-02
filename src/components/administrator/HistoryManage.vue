@@ -33,7 +33,7 @@
                 </el-table-column>
                 <el-table-column label="操作时间" prop="phTime" width="150px">
                     <template slot-scope="scope">
-                        <span v-text="new Date(scope.row.phTime).toLocaleString()"></span>
+                        <span v-text="$util.formatDateTime(scope.row.phTime)"></span>
                     </template>
                 </el-table-column>
                 <el-table-column type="expand">
@@ -49,7 +49,7 @@
                                 <span v-text="showOperation(scope.row.phOperation)"></span>
                             </el-form-item>
                             <el-form-item label="操作时间">
-                                <span v-text="new Date(scope.row.phTime).toLocaleString()"></span>
+                                <span v-text="$util.formatDateTime(scope.row.phTime)"></span>
                             </el-form-item>
                             <el-form-item label="操作备注">
                                 <span v-text="scope.row.phRemark"></span>

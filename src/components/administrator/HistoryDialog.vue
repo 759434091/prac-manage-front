@@ -18,7 +18,7 @@
                     </el-table-column>
                     <el-table-column label="操作时间" prop="phTime" width="150px">
                         <template slot-scope="scope">
-                            <span v-text="new Date(scope.row.phTime).toLocaleString()"></span>
+                            <span v-text="$util.formatDateTime(scope.row.phTime)"></span>
                         </template>
                     </el-table-column>
                     <el-table-column type="expand">

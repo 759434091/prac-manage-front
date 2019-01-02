@@ -4,7 +4,7 @@
             <el-form :model="infoForm"
                      :size="size"
                      :label-position="labelPosition"
-                     ref="infoForm" label-width="110px" >
+                     ref="infoForm" label-width="110px">
                 <el-form-item label="目前状态" prop="status">
                     <span v-text="getStuStatus(infoForm.status)"></span>
                 </el-form-item>
@@ -104,8 +104,8 @@
 
                     this.infoForm.status = pmInfo.phiStatus
                     this.infoForm.dateRange = [
-                        new Date(pmInfo.phiStartDate),
-                        new Date(pmInfo.phiEndDate),
+                        this.$util.getDate(pmInfo.phiStartDate),
+                        this.$util.getDate(pmInfo.phiEndDate),
                     ]
                     this.infoForm.company = pmInfo.phiCompany
                     this.infoForm.cpyLoc = pmInfo.phiCpyLoc

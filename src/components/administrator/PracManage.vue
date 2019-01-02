@@ -300,7 +300,7 @@
             },
             dataFormat(dateStr) {
                 if (dateStr == null) return ''
-                const date = new Date(dateStr)
+                const date = this.$util.getDate(dateStr)
                 if (date.getFullYear() === rawDate.getFullYear() &&
                     date.getMonth() === rawDate.getMonth() &&
                     date.getDate() === rawDate.getDate())

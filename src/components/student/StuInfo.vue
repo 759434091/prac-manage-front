@@ -312,8 +312,8 @@
                             case 1: {
                                 this.secondForm.status = pmInfo.phiStatus
                                 this.secondForm.dateRange = [
-                                    new Date(pmInfo.phiStartDate),
-                                    new Date(pmInfo.phiEndDate),
+                                    this.$util.getDate(pmInfo.phiStartDate),
+                                    this.$util.getDate(pmInfo.phiEndDate),
                                 ]
                                 this.secondForm.company = pmInfo.phiCompany
                                 this.secondForm.cpyLoc = pmInfo.phiCpyLoc

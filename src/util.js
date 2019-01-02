@@ -80,9 +80,19 @@ export default {
         if (res === '') return '未登记'
         return res
     },
-    formatDateTime(dateTimeStr) {
+    getDate(dateTimeStr) {
         const date = new Date(dateTimeStr);
+        if (date.toString() === 'Invalid Date') return null
+        return date
+    },
+    formatDateTime(dateTimeStr) {
+        const date = this.getDate(dateTimeStr);
         if (date == null) return ''
         return date.toLocaleString()
+    },
+    formatDate(dateTimeStr) {
+        const date = this.getDate(dateTimeStr);
+        if (date == null) return ''
+        return date.toLocaleDateString()
     }
 }
