@@ -69,6 +69,7 @@ export default {
     },
     enumVal2Label(type, val) {
         for (let i in type) {
+            if (!type.hasOwnProperty(i)) continue
             const item = type[i]
             if (item.value === val)
                 return item.label
@@ -81,7 +82,11 @@ export default {
         return res
     },
     getDate(dateTimeStr) {
-        const date = new Date(dateTimeStr.replace(/-/g, "/"));
+        if (!dateTimeStr.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}\+\d{4}$/)) return null
+        let d = dateTimeStr.replace(/\.\d+/g, '')
+        d = `${d.substring(0, d.length - 2)}:${d.substring(d.length - 2)}`
+
+        const date = new Date(d);
         if (date.toString() === 'Invalid Date') return null
         return date
     },
