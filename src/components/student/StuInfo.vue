@@ -249,16 +249,16 @@
                         {required: true, message: '请选择实习时间', trigger: 'blur'}
                     ],
                     company: [
-                        {required: true, message: '请键入实习公司全称', trigger: 'change'},
-                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'change'}
+                        {required: true, message: '请键入实习公司全称', trigger: 'blur'},
+                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'blur'}
                     ],
                     cpyLoc: [
-                        {required: true, message: '请键入详细单位地址', trigger: 'change'},
-                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'change'}
+                        {required: true, message: '请键入详细单位地址', trigger: 'blur'},
+                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'blur'}
                     ],
                     rentAddr: [
-                        {required: true, message: '请键入详细住宿地址', trigger: 'change'},
-                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'change'}
+                        {required: true, message: '请键入详细住宿地址', trigger: 'blur'},
+                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'blur'}
                     ],
                     accomType: [
                         {required: true, message: '请选择住宿状态', trigger: 'blur'},

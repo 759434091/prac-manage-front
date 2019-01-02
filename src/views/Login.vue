@@ -20,14 +20,9 @@
                                    :disabled="loginProcessing">
                             使用实验中心登录
                         </el-button>
-
-                        <el-tooltip class="login-form-info" effect="dark" placement="top-start">
-                            <div slot="content" v-html="info">
-                            </div>
-                            <i class="el-icon-info" @click="giveNotify"></i>
-                        </el-tooltip>
                     </el-form-item>
                 </el-form>
+                <div v-html="info"></div>
             </el-col>
         </el-row>
     </el-container>
@@ -55,15 +50,19 @@
                     }]
                 },
                 loginProcessing: false,
-                info: `<span>请使用 Chrome 浏览器以获得最佳体验</span>
+                info: `
+                                <span>学生: 初次登录使用实验中心注册<br>&emsp;&emsp;&nbsp;&nbsp;并请修改本
+                                系统密码</span>
                                 <br>
-                                <span>学生请勿使用身份证密码登录, 否则没有登记权限</span>
+                                <span>家长: 使用身份证去掉最后一位的后<br>&emsp;&emsp;&nbsp;&nbsp;六位密码, 特殊证件直接输入学号登录</span>
                                 <br>
                                 <br>
-                                <span>学生: 初次登录使用实验中心注册并请修改本系统密码</span>
+                                <span>请使用 Chrome 浏览器以获得最佳体验</span>
+                                <br>
+                                <span>学生请勿使用身份证密码登录, 否则没有权限</span>
                                 <br>
                                 <br>
-                                <span>家长: 使用身份证去掉最后一位的后六位密码, <br>&emsp;&emsp;&nbsp;&nbsp;特殊证件直接输入学号登录</span>`
+                                `
             }
         },
         created() {
@@ -98,13 +97,6 @@
             },
             goOstec() {
                 document.location.href = 'https://ostec.uestc.edu.cn/authcas/login?service=https://www.xsix103.cn/prac-manage/ostecAuth'
-            },
-            giveNotify() {
-                this.$notify({
-                    dangerouslyUseHTMLString: true,
-                    message: this.info,
-                    duration: 0
-                });
             }
         }
     }
