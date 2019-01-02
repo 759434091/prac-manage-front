@@ -159,7 +159,7 @@
                                v-text="get23ModifyTest()"
                                @click="unlockSecondForm" type="danger">
                     </el-button>
-                    <el-button v-if="active === 2" :disabled="true">
+                    <el-button v-show="active === 2" :disabled="true">
                         <!--todo-->
                         开始离职登记(暂未开放)
                     </el-button>
