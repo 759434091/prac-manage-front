@@ -90,8 +90,6 @@
                             this.$message.error("请使用认证中心登录, 并修改密码")
                             return
                         }
-
-                        console.log(err.response)
                     })
                     .finally(() => this.loginProcessing = false)
             },
