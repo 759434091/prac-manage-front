@@ -1,12 +1,21 @@
 <template>
     <el-container>
         <el-header height="auto">
-            <el-form size="mini" :model="selectForm" :inline="true" label-width="80px" label-position="left">
+            <el-form size="mini" :model="selectForm" :inline="true" label-width="auto" label-position="right">
                 <el-form-item label="学号">
                     <el-input v-model="selectForm.pmUser.puStuId" placeholder="学号、班级、年级"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名">
                     <el-input v-model="selectForm.pmUser.puFullName" placeholder="请输入"></el-input>
+                </el-form-item>
+                <el-form-item label="年级">
+                    <el-select v-model="selectForm.pmInfo.phiGrade" placeholder="请选择">
+                        <el-option label="未选择" :value="null"></el-option>
+                        <el-option v-for="val in grades"
+                                   :key="`grades_${val}`"
+                                   :label="val"
+                                   :value="val"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="登记状态">
                     <el-select v-if="testQueryUser()" v-model="selectForm.pmInfo.phiInfoStep">
@@ -206,7 +215,8 @@
                         phiEndDate: null,
                         phiAccomType: null,
                         phiRentAddr: null,
-                        phiRentCert: null
+                        phiRentCert: null,
+                        phiGrade: null
                     }
                 },
                 pagination: {
@@ -218,7 +228,8 @@
                 historyDialog: {
                     pmUser: null,
                     dialogVisible: false
-                }
+                },
+                grades: [2015, 2016]
             }
         },
         methods: {
@@ -227,6 +238,7 @@
             },
             handleCurrentChange(page) {
                 this.loading = true
+                this.selectForm.pmUser.puGrade = this.selectForm.pmInfo.phiGrade
                 if (this.selectForm.pmInfo.phiStatus === 0)
                     this.selectForm.pmInfo.phiStatus = null
                 if (this.selectForm.pmInfo.phiAccomType === 0)
@@ -294,7 +306,8 @@
                         phiEndDate: null,
                         phiAccomType: null,
                         phiRentAddr: null,
-                        phiRentCert: null
+                        phiRentCert: null,
+                        phiGrade: null
                     }
                 }
             },

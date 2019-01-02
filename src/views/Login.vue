@@ -66,6 +66,9 @@
                                 <span>家长: 使用身份证去掉最后一位的后六位密码, <br>&emsp;&emsp;&nbsp;&nbsp;特殊证件直接输入学号登录</span>`
             }
         },
+        created() {
+            this.$store.dispatch('logout')
+        },
         methods: {
             onSubmit() {
                 this.$notify.closeAll()
