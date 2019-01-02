@@ -81,7 +81,7 @@ export default {
         return res
     },
     getDate(dateTimeStr) {
-        const date = new Date(dateTimeStr);
+        const date = new Date(dateTimeStr.replace(/-/g, "/"));
         if (date.toString() === 'Invalid Date') return null
         return date
     },
