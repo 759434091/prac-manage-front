@@ -161,11 +161,7 @@
                 }
             },
             logout() {
-                const _this = this
-                this.$store.dispatch('logout')
-                    .then(() => {
-                        _this.$router.push('/login')
-                    })
+                this.$router.push('/login')
             },
             goSetting() {
                 this.$store.commit('backSetting', this.$route.path)
