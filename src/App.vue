@@ -88,10 +88,13 @@
 
             const userAgent = navigator.userAgent;
             if (userAgent.includes('compatible') || userAgent.includes('MSIE') || userAgent.includes('Trident')) {
-                this.$alert('为了您的最佳体验, 请使用 Chrome 浏览器访问', '对不起', {
+                this.$alert('本网站不兼容IE, 为了您的最佳体验, 建议使用 Chrome 浏览器访问', '对不起', {
                     showClose: false,
                     showConfirmButton: false
                 })
+            }
+            else if (userAgent.includes('Safari')) {
+                this.$alert('本网站不兼容Safari, 为了您的最佳体验, 建议使用 Chrome 浏览器访问', '对不起')
             }
             else if (!userAgent.includes('Chrome') && !userAgent.includes('Firefox')) {
                 this.$alert('为了您的最佳体验, 建议使用 Chrome 浏览器访问', '警告')
