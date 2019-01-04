@@ -8,6 +8,8 @@
     export default {
         name: 'app',
         created() {
+            let lock = false
+
             const _this = this
 
             this.$request.interceptors.request.use(
@@ -34,43 +36,44 @@
                         if (err.config && !err.config.url.includes('/token') && 401 === err.response.status) {
                             const refreshToken = localStorage.getItem('refreshToken')
                             if (refreshToken == null) {
-                                this.$message.error('登录信息过期, 请重新登录')
+                                this.$message.error('[no cred]登录信息过期, 请重新登录')
                                 this.$router.push('/login')
                                 return reject()
                             }
 
-                            const formData = new FormData()
-                            formData.append('refreshToken', refreshToken)
-                            _this.$request
-                                .post('/refreshToken', formData)
-                                .then((res) => {
-                                    _this.$store.commit('login', res.data)
+                            const config = err.config
+                            config.baseURL = '';
 
-                                    const url = err.config.url
-                                    const data = err.config.data
-                                    const method = err.config.method
-                                    const params = err.config.params
-                                    const contentType = err.config.headers['Content-Type']
+                            if (!lock) {
+                                lock = true
+                                const formData = new FormData()
+                                formData.append('refreshToken', refreshToken)
 
-                                    _this
-                                        .$request({
-                                            url,
-                                            data,
-                                            params,
-                                            method,
-                                            headers: {
-                                                'Content-Type': contentType,
-                                                Authorization: `Bearer ${res.data.accessToken}`
-                                            }
-                                        })
+                                _this.$request
+                                    .post('/refreshToken', formData)
+                                    .then((res) => {
+                                        _this.$store.commit('login', res.data)
+
+                                        _this.$request(config)
+                                            .then(res => resolve(res))
+                                            .catch(err => reject(err))
+                                    })
+                                    .catch(() => {
+                                        this.$message.error('[fail refresh]登录信息过期, 请重新登录')
+                                        this.$router.push('/login')
+                                        return reject()
+                                    })
+                                    .finally(() => lock = false)
+                            }
+                            else {
+                                const itl = setInterval(() => {
+                                    if (lock) return
+                                    clearInterval(itl)
+                                    _this.$request(config)
                                         .then(res => resolve(res))
                                         .catch(err => reject(err))
-                                })
-                                .catch(() => {
-                                    this.$message.error('登录信息过期, 请重新登录')
-                                    this.$router.push('/login')
-                                    return reject()
-                                })
+                                }, 200)
+                            }
                         } else {
                             return reject(err)
                         }

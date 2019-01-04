@@ -116,7 +116,7 @@
                         this.roleSwitchCase()
                 })
                 .catch(() => {
-                    this.$message.warning("用户信息失效，请重新登录")
+                    this.$message.warning("[fail user]用户信息失效，请重新登录")
                     this.$router.push('/login')
                 })
         },
@@ -142,8 +142,10 @@
         },
         methods: {
             roleSwitchCase() {
-                if (this.jwtPmUser == null)
+                if (this.jwtPmUser == null) {
+                    this.$message.warning("[no user]用户信息失效，请重新登录")
                     this.$router.push('/login')
+                }
                 switch (this.jwtPmUser.role) {
                     case 'STUDENT':
                         this.$router.push('/index/student')
@@ -155,7 +157,8 @@
                         this.$router.push('/index/parent')
                         return
                     default: {
-                        this.$message.warning("用户信息失效，请重新登录")
+                        console.log(this.jwtPmUser)
+                        this.$message.warning("[no role]用户信息失效，请重新登录")
                         this.$router.push('/login')
                     }
                 }
