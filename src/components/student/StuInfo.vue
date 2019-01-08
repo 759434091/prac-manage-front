@@ -355,8 +355,10 @@
 
                         const pmInfo = {}
                         pmInfo.phiStatus = this.firstForm.status
-                        pmInfo.phiStartDate = this.firstForm.dateRange[0]
-                        pmInfo.phiEndDate = this.firstForm.dateRange[1]
+                        if (this.firstForm.dateRange != null) {
+                            pmInfo.phiStartDate = this.firstForm.dateRange[0]
+                            pmInfo.phiEndDate = this.firstForm.dateRange[1]
+                        }
                         pmInfo.phiCompany = this.firstForm.company
                         pmInfo.phiCpyLoc = this.firstForm.cpyLoc
                         pmInfo.phiAccomType = this.firstForm.accomType
