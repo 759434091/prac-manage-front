@@ -89,6 +89,12 @@ export default new Router({
             ]
         },
         {
+            path: '/ostec',
+            name: '/ostec',
+            component:
+                () => import('./views/Ostec.vue')
+        },
+        {
             path: '*',
             component:
                 () => import('./views/NotFound.vue')
