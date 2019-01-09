@@ -8,10 +8,6 @@ export default {
             label: '在校',
             value: 1
         },
-        LEAVE_SCHOOL: {
-            label: '离校',
-            value: 2
-        },
         AT_HOME: {
             label: '到家',
             value: 3
@@ -19,6 +15,10 @@ export default {
         AT_RENT: {
             label: '实习',
             value: 4
+        },
+        OTHER: {
+            label: '其他(填写备注)',
+            value: 2
         }
     },
     PhiAccomType: {
