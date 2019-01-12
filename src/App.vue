@@ -28,6 +28,11 @@
                 },
                 err => {
                     return new Promise((resolve, reject) => {
+                        if (502 === err.response.status) {
+                            this.$message.error('服务器维护中, 请稍后再试')
+                            return
+                        }
+
                         if (null == err.response) {
                             this.$message.error('服务器无反应, 请稍后再试')
                             return reject()

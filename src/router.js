@@ -32,7 +32,7 @@ export default new Router({
                 {
                     path: 'student',
                     name: 'student',
-                    redirect: 'student/stuInfo',
+                    redirect: 'student/clockIn',
                     component: () => import('./components/Student.vue'),
                     children: [
                         {

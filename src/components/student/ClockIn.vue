@@ -1,12 +1,12 @@
 <template>
     <el-container>
         <el-main>
-            <el-form>
+            <el-form v-loading="loadingCheck">
                 <el-form-item v-if="src != null">
                     <iframe width="320px" height="480px" :src="src"></iframe>
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="onClockIn" type="primary">打卡</el-button>
+                    <el-button :disabled="disableCheck || disablePos" i @click="onClockIn" type="primary">打卡</el-button>
                 </el-form-item>
             </el-form>
         </el-main>
@@ -27,6 +27,9 @@
         },
         data() {
             return {
+                disableCheck: true,
+                disablePos: true,
+                loadingCheck: false,
                 loc: {
                     latitude: null,
                     longitude: null
@@ -35,21 +38,39 @@
             }
         },
         mounted() {
+            this.loadingCheck = true
+            this.$request
+                .get(`/clockIn/${this.jwtPmUser.id}`)
+                .then(res => {
+                    if (res.data.success)
+                        this.disableCheck = false
+                    else
+                        this.$message.error(res.data.message)
+                })
+                .catch(err => {
+                    if (!err.response || !err.response.data)
+                        return
+                    if (!err.response.data.message) {
+                        this.$message.error(err.response.data)
+                        return
+                    }
+                    this.$message.error(err.response.data.message)
+                })
+                .finally(() => this.loadingCheck = false)
+
             const loading = this.$loading({
                 lock: true,
                 text: '定位中',
                 spinner: 'el-icon-loading',
                 background: '#fafafa'
             })
+
             this.geo = new window.qq.maps.Geolocation('OXNBZ-FK2W5-6NMI7-QYXJY-IAY7F-WEFBS', 'pm_loc')
-            this.geo.getLocation(
+            this.geo.watchPosition(
                 (pos) => {
                     this.loc.latitude = pos.lat
                     this.loc.longitude = pos.lng
-                    loading.close()
-                },
-                (err) => {
-                    this.$message.error(err)
+                    this.disablePos = false
                     loading.close()
                 })
         },
