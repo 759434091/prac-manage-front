@@ -22,7 +22,7 @@
             ...mapState(['jwtPmUser']),
             src() {
                 if (this.loc.longitude == null || this.loc.latitude == null) return null
-                return `https://3gimg.qq.com/lightmap/components/locationCluster/index.html?type=0&marker=coord:${this.loc.latitude},${this.loc.longitude};title:目前地点;addr: &key=OXNBZ-FK2W5-6NMI7-QYXJY-IAY7F-WEFBS&referer=pm_loc`
+                return `https://3gimg.qq.com/lightmap/components/locationCluster/index.html?type=0&marker=coord:${this.loc.latitude},${this.loc.longitude};title:${this.loc.city};addr:${this.loc.addr}&key=OXNBZ-FK2W5-6NMI7-QYXJY-IAY7F-WEFBS&referer=pm_loc`
             }
         },
         data() {
@@ -31,6 +31,8 @@
                 disablePos: true,
                 loadingCheck: false,
                 loc: {
+                    city: '',
+                    addr: '',
                     latitude: null,
                     longitude: null
                 },
@@ -68,6 +70,8 @@
             this.geo = new window.qq.maps.Geolocation('OXNBZ-FK2W5-6NMI7-QYXJY-IAY7F-WEFBS', 'pm_loc')
             this.geo.watchPosition(
                 (pos) => {
+                    this.loc.city = pos.city
+                    this.loc.addr = pos.addr
                     this.loc.latitude = pos.lat
                     this.loc.longitude = pos.lng
                     this.disablePos = false
