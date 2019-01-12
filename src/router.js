@@ -39,6 +39,11 @@ export default new Router({
                             path: 'stuInfo',
                             name: 'stuInfo',
                             component: () => import('./components/student/StuInfo.vue')
+                        },
+                        {
+                            path: 'clockIn',
+                            name: 'clockIn',
+                            component: () => import('./components/student/ClockIn.vue')
                         }
                     ]
                 },
