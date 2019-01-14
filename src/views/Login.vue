@@ -94,7 +94,17 @@
                     .finally(() => this.loginProcessing = false)
             },
             goOstec() {
-                document.location.href = 'https://ostec.uestc.edu.cn/authcas/login?service=http://www.yilustudio.cn/ostecAuth'
+                const html =
+                    `
+                <el-main>
+                <p>该功能正在维护中</p>
+                <p>详情: 被实验中心墙了~~~~(>_<)~~~~</p>
+                </el-main>
+                `
+                this.$alert(html, '对不起', {
+                    dangerouslyUseHTMLString: true
+                })
+                /*document.location.href = 'https://ostec.uestc.edu.cn/authcas/login?service=http://www.yilustudio.cn/ostecAuth'*/
             }
         }
     }
