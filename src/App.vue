@@ -30,7 +30,7 @@
                     return new Promise((resolve, reject) => {
                         if (502 === err.response.status) {
                             this.$message.error('服务器维护中, 请稍后再试')
-                            return
+                            return reject()
                         }
 
                         if (null == err.response) {

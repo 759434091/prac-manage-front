@@ -94,17 +94,7 @@
                     .finally(() => this.loginProcessing = false)
             },
             goOstec() {
-                const html =
-                    `
-                <el-main>
-                <p>该功能正在维护中</p>
-                <p>详情: 服务器昨夜被他人掐了电源，导致实验中心缓存了链接无效状态，请等待修复~~~~(>_<)~~~~</p>
-                </el-main>
-                `
-                this.$alert(html, '对不起', {
-                    dangerouslyUseHTMLString: true
-                })
-                //document.location.href = 'https://ostec.uestc.edu.cn/authcas/login?service=https://www.xsix103.cn/prac-manage/ostecAuth'
+                document.location.href = 'https://ostec.uestc.edu.cn/authcas/login?service=http://www.yilustudio.cn/ostecAuth'
             }
         }
     }
