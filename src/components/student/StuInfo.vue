@@ -55,8 +55,10 @@
                 <el-form-item label="备注">
                     <el-input v-model="firstForm.remark" placeholder="附加信息"></el-input>
                 </el-form-item>
-                <el-form-item label="住宿协议">
+                <el-form-item label="住宿协议"
+                              :disabled="true">
                     <el-upload
+                            :disabled="true"
                             action="#"
                             ref="cozUpload"
                             :drag="true"
@@ -66,7 +68,8 @@
                             :multiple="false"
                             :auto-upload="true">
                         <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">将凭证文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__text">暂未开放</div>
+                        <!--<div class="el-upload__text">将凭证文件拖到此处，或<em>点击上传</em></div>-->
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
@@ -137,6 +140,7 @@
                     <el-button size="small" v-if="secondForm.hideUpload" type="info" @click="reUpSecFile">重新上传
                     </el-button>
                     <el-upload
+                            :disabled="true"
                             v-if="!secondForm.hideUpload"
                             action="#"
                             ref="cozUpload"
@@ -147,7 +151,8 @@
                             :multiple="false"
                             :auto-upload="true">
                         <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">将凭证文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__text">暂未开放</div>
+                        <!--<div class="el-upload__text">将凭证文件拖到此处，或<em>点击上传</em></div>-->
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
