@@ -255,7 +255,7 @@
                     ],
                     company: [
                         {required: true, message: '请键入实习公司全称', trigger: 'blur'},
-                        {min: 12, max: 100, message: '长度在 12 到 100 个字符', trigger: 'blur'}
+                        {min: 10, max: 100, message: '长度在 10 到 100 个字符', trigger: 'blur'}
                     ],
                     cpyLoc: [
                         {required: true, message: '请键入详细单位地址', trigger: 'blur'},
@@ -432,7 +432,6 @@
                     })
             },
             submitSecondForm() {
-                debugger
                 this.$refs.secondForm
                     .validate((valid) => {
                         if (!valid)
