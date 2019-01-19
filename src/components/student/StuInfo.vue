@@ -58,7 +58,6 @@
                 <el-form-item label="住宿协议"
                               :disabled="true">
                     <el-upload
-                            :disabled="true"
                             action="#"
                             ref="cozUpload"
                             :drag="true"
@@ -68,8 +67,14 @@
                             :multiple="false"
                             :auto-upload="true">
                         <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">暂未开放</div>
-                        <!--<div class="el-upload__text">将凭证文件拖到此处，或<em>点击上传</em></div>-->
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">
+                            请将住宿协议和
+                            <el-button @click="dlKnowFile()" type="text" size="mini">
+                                《信息与软件工程学院实习实训期间学生安全须知》
+                            </el-button>
+                            一起打包
+                        </div>
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
@@ -140,7 +145,6 @@
                     <el-button size="small" v-if="secondForm.hideUpload" type="info" @click="reUpSecFile">重新上传
                     </el-button>
                     <el-upload
-                            :disabled="true"
                             v-if="!secondForm.hideUpload"
                             action="#"
                             ref="cozUpload"
@@ -151,8 +155,14 @@
                             :multiple="false"
                             :auto-upload="true">
                         <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">暂未开放</div>
-                        <!--<div class="el-upload__text">将凭证文件拖到此处，或<em>点击上传</em></div>-->
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">
+                            请将住宿协议和
+                            <el-button @click="dlKnowFile()" type="text" size="mini">
+                                《信息与软件工程学院实习实训期间学生安全须知》
+                            </el-button>
+                            一起打包
+                        </div>
                     </el-upload>
                 </el-form-item>
                 <el-form-item>
@@ -177,6 +187,8 @@
 <script>
     import {mapState} from 'vuex'
 
+    const typeSet = new Set(['application/zip', 'application/x-7z-compressed', 'application/x-tar',
+        'application/x-rar-compressed', 'application/pdf'])
     export default {
         name: "StuInfo",
         computed: {
@@ -494,8 +506,10 @@
 
                     })
             },
-            uploadFirstFile(data) {
-                const file = data.file
+            uploadFirstFile() {
+                if (this.firstForm.fileList.length !== 1)
+                    return
+                const file = this.firstForm.fileList[0].raw
                 const formData = new FormData();
                 formData.append('rentCert', file)
 
@@ -517,11 +531,19 @@
                     })
             },
             handleFirstFileChange(file) {
+                const type = file.raw.type
+                if (type == null || !typeSet.has(type.trim())) {
+                    this.$message.warning('格式不符合要求')
+                    this.firstForm.fileList = []
+                    return
+                }
                 this.firstForm.fileList = []
                 this.firstForm.fileList.push(file)
             },
-            uploadSecondFile(data) {
-                const file = data.file
+            uploadSecondFile() {
+                if (this.secondForm.fileList.length !== 1)
+                    return
+                const file = this.secondForm.fileList[0].raw
                 const formData = new FormData();
                 formData.append('rentCert', file)
 
@@ -543,6 +565,12 @@
                     })
             },
             handleSecondFileChange(file) {
+                const type = file.raw.type
+                if (type == null || !typeSet.has(type.trim())) {
+                    this.$message.warning('格式不符合要求')
+                    this.secondForm.fileList = []
+                    return
+                }
                 this.secondForm.fileList = []
                 this.secondForm.fileList.push(file)
             },
@@ -571,6 +599,9 @@
                 iframe.src = `${this.$request.defaults.baseURL}/files/${this.secondForm.fileRes}`
                 iframe.onload = () => document.body.removeChild(iframe)
                 document.body.appendChild(iframe)
+            },
+            dlKnowFile() {
+
             },
             reUpSecFile() {
                 this.secondForm.fileRes = null
