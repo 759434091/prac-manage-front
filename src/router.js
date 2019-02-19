@@ -54,6 +54,11 @@ export default new Router({
                     component: () => import('./components/Administrator.vue'),
                     children: [
                         {
+                            path: 'clockInManage',
+                            name: 'clockInManage',
+                            component: () => import('./components/administrator/ClockInManage.vue')
+                        },
+                        {
                             path: 'pracManage',
                             name: 'pracManage',
                             component: () => import('./components/administrator/PracManage.vue')
@@ -62,7 +67,7 @@ export default new Router({
                             path: 'historyManage',
                             name: 'historyManage',
                             component: () => import('./components/administrator/HistoryManage.vue')
-                        }
+                        },
                     ]
                 },
                 {
