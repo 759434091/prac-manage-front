@@ -22,9 +22,63 @@
         </el-header>
         <el-main>
             <el-table :data="pmUserWithClockInList" size="mini" v-loading="loading">
-
+                <el-table-column label="年级" prop="puGrade" width="50px"/>
+                <el-table-column label="学号" prop="puStuId" width="150px"/>
+                <el-table-column label="姓名" prop="puFullName" width="150px"/>
+                <el-table-column label="打卡时间" prop="pmCloclkIn.PciDateTime" width="200px">
+                    <template slot-scope="scope">
+                        <span v-text="$util.formatDateTime(scope.row.pmClockIn.pciDateTime)"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="打卡地点(预测)">
+                    <template slot-scope="scope">
+                        <span v-text="scope.row.locInfo == null ? '检索中' : scope.row.locInfo"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column type="expand">
+                    <template slot-scope="scope">
+                        <el-form label-position="left" inline size="mini" class="table-expand">
+                            <el-form-item label="年级">
+                                <span v-text="scope.row.puGrade"></span>
+                            </el-form-item>
+                            <el-form-item label="学号">
+                                <span v-text="scope.row.puStuId"></span>
+                            </el-form-item>
+                            <el-form-item label="姓名">
+                                <span v-text="scope.row.puFullName"></span>
+                            </el-form-item>
+                            <el-form-item label="打卡日期">
+                                <span v-text="$util.formatDate(scope.row.pmClockIn.pciDate)"></span>
+                            </el-form-item>
+                            <el-form-item label="打卡时间">
+                                <span v-text="$util.formatDateTime(scope.row.pmClockIn.pciDateTime)"></span>
+                            </el-form-item>
+                            <el-form-item label="打卡地点(预测)">
+                                <span v-text="scope.row.locInfo == null ? '检索中' : scope.row.locInfo"></span>
+                            </el-form-item>
+                            <el-form-item label="经度">
+                                <span v-text="scope.row.pmClockIn.pciLong"></span>
+                            </el-form-item>
+                            <el-form-item label="纬度">
+                                <span v-text="scope.row.pmClockIn.pciLat"></span>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                </el-table-column>
             </el-table>
         </el-main>
+        <el-footer>
+            <el-pagination
+                    class="idx-main-pagination"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="pagination.currentPage"
+                    :page-size="pagination.size"
+                    :page-sizes="[10, 30, 50, 100]"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="pagination.total">
+            </el-pagination>
+        </el-footer>
     </el-container>
 </template>
 
@@ -85,7 +139,8 @@
                     size: 10
                 },
                 loading: false,
-                pmUserWithClockInList: []
+                pmUserWithClockInList: [],
+                geocoder: null
             }
         },
         mounted() {
@@ -94,14 +149,43 @@
                     this.handleCurrentChange(1)
                 }
             )
+            // eslint-disable-next-line
+            this.geocoder = new qq.maps.Geocoder();
         },
         methods: {
+            getLocInfo(pmUserWithClockIn) {
+                const clockIn = pmUserWithClockIn.pmClockIn
+                const cbName = `locInfoCb${pmUserWithClockIn.puId}`
+                const script = document.createElement('script')
+                const _this = this
+                window[cbName] = result => {
+                    if (result.info == null
+                        || result.info.error == null
+                        || result.info.error !== 0
+                        || result.detail.poi_count < 1)
+                        pmUserWithClockIn.locInfo = '获取失败'
+                    else
+                        pmUserWithClockIn.locInfo = result.detail.poilist[0].addr
+                    _this.$set(
+                        _this.pmUserWithClockInList,
+                        _this.pmUserWithClockInList.indexOf(pmUserWithClockIn),
+                        pmUserWithClockIn)
+                    window[cbName] = undefined
+                    document.body.removeChild(script)
+                }
+                script.setAttribute('src', `https://apis.map.qq.com/jsapi?qt=rgeoc&lnglat=${clockIn.pciLong}%2C${clockIn.pciLat}&key=OXNBZ-FK2W5-6NMI7-QYXJY-IAY7F-WEFBS&output=jsonp&pf=jsapi&ref=jsapi&cb=${cbName}`)
+                document.body.appendChild(script)
+            },
             onSearch() {
                 this.$refs.clockInQueryForm.validate((valid) => {
                         if (!valid) return
                         this.handleCurrentChange(1)
                     }
                 )
+            },
+            handleSizeChange(size) {
+                this.pagination.size = size
+                this.onSearch()
             },
             handleCurrentChange(page) {
                 this.loading = true
@@ -115,6 +199,16 @@
                         this.pagination.currentPage = pageIntro.pageNum
                         this.pagination.total = pageIntro.total
                         this.pmUserWithClockInList = pageIntro.list
+
+                        let timeout = 0;
+                        this.pmUserWithClockInList
+                            .forEach(uwc => {
+                                const _this = this
+                                setTimeout(() => {
+                                    _this.getLocInfo(uwc)
+                                }, timeout)
+                                timeout += 100
+                            })
                     })
                     .catch(err => {
                         if (!err.response || !err.response.data)

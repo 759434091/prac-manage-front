@@ -173,13 +173,14 @@
             </el-table>
         </el-main>
         <el-footer>
+            <el-button type="info" size="mini" @click="exportInfo">导出</el-button>
             <el-pagination
                     class="idx-main-pagination"
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page.sync="pagination.currentPage"
                     :page-size="pagination.size"
-                    :page-sizes="[10, 30, 50, 100, 200]"
+                    :page-sizes="[10, 30, 50, 100, 200, 500, 1000]"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="pagination.total">
             </el-pagination>
@@ -327,6 +328,48 @@
             closeHistoryDialog() {
                 this.historyDialog.pmUser = null
                 this.historyDialog.dialogVisible = false
+            },
+            exportInfo() {
+                this.loading = true
+                this.selectForm.pmUser.puGrade = this.selectForm.pmInfo.phiGrade
+                if (this.selectForm.pmInfo.phiStatus === 0)
+                    this.selectForm.pmInfo.phiStatus = null
+                if (this.selectForm.pmInfo.phiAccomType === 0)
+                    this.selectForm.pmInfo.phiAccomType = null
+                if (this.selectForm.pmUser.puStuId == null || this.selectForm.pmUser.puStuId.trim() === '')
+                    this.selectForm.pmUser.puStuId = null
+                if (this.selectForm.pmUser.puFullName == null || this.selectForm.pmUser.puFullName.trim() === '')
+                    this.selectForm.pmUser.puFullName = null
+                this.$request
+                    .post('/info/export', this.selectForm, {
+                        responseType: 'blob'
+                    })
+                    .then(res => {
+                        const tmpUrl = URL.createObjectURL(res.data)
+                        const a = document.createElement('a');
+                        a.innerHTML = "export.xlsx";
+                        a.download = "export.xlsx";
+                        a.href = tmpUrl;
+
+                        document.body.appendChild(a);
+
+                        const event = document.createEvent("MouseEvents");
+                        event.initEvent("click", false, false);
+                        a.dispatchEvent(event);
+                        document.body.removeChild(a);
+                    })
+                    .catch(err => {
+                        if (!err.response || !err.response.data)
+                            return
+                        if (!err.response.data.message) {
+                            this.$message.error(err.response.data)
+                            return
+                        }
+                        this.$message.error(err.response.data.message)
+                    })
+                    .finally(() => {
+                        this.loading = false
+                    })
             }
         }
     }
