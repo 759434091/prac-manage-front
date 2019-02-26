@@ -16,7 +16,7 @@
                                    :disabled="loginProcessing">
                             登录
                         </el-button>
-                        <el-button class="login-form-button" type="info" @click="goOstec" size="mini"
+                        <el-button class="login-form-button" id="hiddenbutton" type="info" @click="goOstec" size="mini"
                                    :disabled="loginProcessing">
                             使用实验中心登录
                         </el-button>
@@ -24,7 +24,7 @@
                 </el-form>
                 <el-form size="mini" label-width="40px" label-position="left">
                     <el-form-item label="学生">
-                        <span>初次登录使用实验中心登录进行登记, 并请修改本系统密码</span>
+                        <span>初次登录请使用初始密码登录, 并请修改本系统密码</span>
                     </el-form-item>
                     <el-form-item label="家长">
                         <span>使用身份证去掉最后一位的后六位密码, 特殊证件直接输入学号登录查看</span>
@@ -133,6 +133,10 @@
     .login-form-button {
         margin-top: 12px !important;
         margin-bottom: 12px !important;
+    }
+
+    #hiddenbutton{
+        display: none;
     }
 
     .login-form .el-form-item.is-required .el-form-item__label:before {
